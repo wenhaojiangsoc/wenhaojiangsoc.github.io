@@ -9,4 +9,4 @@ redirect_from:
 
 {% include base_path %}
 
-you may check the updated version [here](https://www.dropbox.com/s/ay6ngg0ntqoyw2u/CV%2008192022.pdf?dl=0).
+you may check the updated version [here](https://www.dropbox.com/s/2o0ear2d9ytmj0u/CV%2008262022.pdf?dl=0).
