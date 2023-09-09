@@ -19,7 +19,7 @@ My research centers on the intersection of work and occupations and sociology of
  
  Methodologically, I advance methods in Natural Language Processing (NLP) in the studies of work, occupations, and labor market, using both labor market data and uniquely substantial textual data, including historical publications, movie scripts, and unstructured texts from online platforms.
 
-I am the recipient of the [Aage Sørensen Award](https://sites.google.com/site/rc28hp/travel-awards/recipients) from the International Sociological Association Research Committee on Stratification and Mobility (RC28), and the [Harvard-Yenching Institute Fellowship](https://www.harvard-yenching.org/).
+Besides several internal fellowships or grants from NYU, I am also the recipient of the [Aage Sørensen Award](https://sites.google.com/site/rc28hp/travel-awards/recipients) from the International Sociological Association Research Committee on Stratification and Mobility (RC28), and the [Harvard-Yenching Institute Fellowship](https://www.harvard-yenching.org/).
 
 Prior to coming to NYU, I received B.S. in Social Sciences from the Hong Kong University of Science and Technology, and B.A. in Economics from Waseda University, both in 2020, funded by the [Bai Xian Asia Institute](https://www.bxai.org/).
 
