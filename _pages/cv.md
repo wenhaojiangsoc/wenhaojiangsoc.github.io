@@ -9,4 +9,4 @@ redirect_from:
 
 {% include base_path %}
 
-you may check the updated version [here](https://www.dropbox.com/scl/fi/wbqd23ievjv5gyubwoimp/cv-us.pdf?rlkey=jft92a8waeesxkezj7715wpam&dl=0).
+you may check the updated version [here](https://www.dropbox.com/scl/fi/8zxi5q9vmbj85ivl5zauu/cv-us.pdf?rlkey=r46akpk2gn59rtjosve42wxff&dl=0).
