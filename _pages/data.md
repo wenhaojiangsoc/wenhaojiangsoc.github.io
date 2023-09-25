@@ -17,4 +17,5 @@ This project, currently under review ([preprint](http://osf.io/preprints/socarxi
 + [Google Ngram and Books, Version 2](http://storage.googleapis.com/books/ngrams/books/datasetsv2.html) (126 billion words of *American English*)
 + [Corpus of Historical American English](https://www.english-corpora.org/coha/)
 + [Corpus of Contemporary American English](https://www.english-corpora.org/coca/) (COHA and COCA combined: 1 billion words). 
+
 Embeddings are released by decade from 1900. You may find all embedding vectors and the replication package from the [site](https://github.com/wenhaojiangsoc/devaluation). 
