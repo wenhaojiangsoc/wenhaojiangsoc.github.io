@@ -15,9 +15,11 @@ I am a Ph.D. student at the [Department of Sociology](https://as.nyu.edu/departm
 
 My research centers on the intersection of work and occupations and sociology of culture. One strand of my research focuses on how people make sense of jobs and how the collective understanding of jobs in history shape the occupational structure and inequality today. Another strand of my work focuses on people's experience in their daily productions, and how their experience in time shape the wage and gender structure. I also study the inter-connections of jobs in both physical and semantic space.
 
- My previous work has been published in *Social Science and Medicine* and *Nature Scientific Reports*. My most review work is under *Review and Resubmit* in *American Sociological Review*.
+ My previous work has been published in *Social Science and Medicine* and *Nature Scientific Reports*. My most recent work is under *Review and Resubmit* in *American Sociological Review*.
  
- Methodologically, I advance methods in Natural Language Processing (NLP) in the studies of work, occupations, and labor market, using both labor market data and uniquely substantial textual data, including historical publications, movie scripts, and unstructured texts from online platforms.
+ Methodologically, I advance methods in Natural Language Processing (NLP) in the studies of work, occupations, and labor market, using both labor market data and uniquely substantial textual data, including historical publications and unstructured texts from online platforms.
+ 
+ I am recently using over 40 million unstructured review data from [Glassdoor](https://www.glassdoor.com/) and [Indeed](https://indeed.com/) to understand work schedule precarity and (in)flexibility in the United States. If you have any collaborative interests, please feel free to reach me out.
 
 Besides several internal fellowships or grants from NYU, I am also the recipient of the [Aage Sørensen Award](https://sites.google.com/site/rc28hp/travel-awards/recipients) from the International Sociological Association Research Committee on Stratification and Mobility (RC28), and the [Harvard-Yenching Institute Fellowship](https://www.harvard-yenching.org/).
 
