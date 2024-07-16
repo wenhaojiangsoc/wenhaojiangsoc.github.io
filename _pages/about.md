@@ -15,7 +15,7 @@ I am a Ph.D. student at the [Department of Sociology](https://as.nyu.edu/departm
 
 My research centers on the intersection of work and occupations and sociology of culture. One strand of my research focuses on how people make sense of jobs and how the collective understanding of jobs in history shape the occupational structure and inequality today. Another strand of my work focuses on people's experience in their daily productions, and how their experience in time shape the wage and gender structure. I also study the inter-connections of jobs in both physical and semantic space.
 
- My previous work has been published in *Social Science and Medicine* and *Nature Scientific Reports*. My most recent work is under *Review and Resubmit* in *American Sociological Review*.
+ My previous work has been published in *Social Science and Medicine* and *Nature Scientific Reports*. My most recent work is under *Revise and Resubmit* in both *American Sociological Review* and *Social Forces*.
  
  Methodologically, I advance methods in Natural Language Processing (NLP) in the studies of work, occupations, and labor market, using both labor market data and uniquely substantial textual data, including historical publications and unstructured texts from online platforms.
  
