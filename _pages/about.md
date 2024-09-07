@@ -11,21 +11,21 @@ redirect_from:
 
 Welcome to this tiny corner of the internet! 
 
-I am a Ph.D. candidate at the [Department of Sociology](https://as.nyu.edu/departments/sociology.html), New York University. I will be on job market during the 2024-25 cycle.
+I am a Ph.D. candidate at the [Department of Sociology](https://as.nyu.edu/departments/sociology.html), New York University. I will be on the job market during the 2024-25 cycle.
 
-My research centers on the intersection of work and occupations and sociology of culture. One strand of my research focuses on how people make sense of jobs and how the collective understanding of jobs in history shape the occupational structure and inequality today. Another part of my work focuses on people's experience in their daily productions, and how their experience in time shape the wage and gender structure. I also study the inter-connections of jobs in both physical and semantic space.
+I am broadly interested in social inequality and stratification. Much of my recent work center on the intersection of work and occupations and the sociology of culture. One line of inquiry examines on how people make sense of jobs and how the collective understanding of jobs in history shape the occupational structure and inequality today. Another part of my work focuses on people's experience in their daily productions, and how their time spent at work influences the wage and gender structure. 
 
- My previous work has been published in *Social Science and Medicine*. My most recent work is conditionally accepted in *American Sociological Review* or under *Revise and Resubmit* in *Social Forces*.
+ My previous work has been published in *Social Science and Medicine*. Some of my recent papers are conditionally accepted in *American Sociological Review* or are under *Revise and Resubmit* in *Social Forces*.
  
- Methodologically, I advance methods in Natural Language Processing (NLP) in the studies of work, occupations, and labor market, using both labor market data and uniquely substantial textual data. I also study causal inference methods and have been developing a new Cohort Discontinuity Design for studying social changes in response to a period shock. Please keep an eye on the new `R` package, `cohortDD`, that I will release soon!
+Methodologically, I advance the use of computational techniques, particularly Natural Language Processing (NLP), in the study of work, occupations, and labor markets, combining labor market data with substantial textual data. I also focus on causal inference methods and have been developing a new Cohort Discontinuity Design for studying social changes in response to period shocks. Keep an eye on the new `R` package, `cohortDD`, which I will be releasing soon!
  
- I am recently using over 40 million unstructured review data from [Glassdoor](https://www.glassdoor.com/) and [Indeed](https://indeed.com/) to understand work schedule precarity and (in)flexibility in the United States. If you have any collaborative interests, please feel free to reach me out.
+ I am recently using over 40 million unstructured review data from [Glassdoor](https://www.glassdoor.com/) and [Indeed](https://indeed.com/) to study work schedule precarity and (in)flexibility in the United States. If you have any collaborative interests, please feel free to reach me out.
 
 Besides several internal fellowships or grants from NYU, I am also the recipient of the [Aage Sørensen Award](https://sites.google.com/site/rc28hp/travel-awards/recipients) from the International Sociological Association Research Committee on Stratification and Mobility (RC28), and the [Harvard-Yenching Institute Fellowship](https://www.harvard-yenching.org/).
 
-Prior to coming to NYU, I received B.S. in Social Sciences from the Hong Kong University of Science and Technology, and B.A. in Economics from Waseda University, both in 2020, funded by the [Bai Xian Asia Institute](https://www.bxai.org/).
+Prior to coming to NYU, I received a B.S. in Social Sciences from the Hong Kong University of Science and Technology, and a B.A. in Economics from Waseda University, both in 2020, funded by the [Bai Xian Asia Institute](https://www.bxai.org/).
 
-You may reach out to me at [wj2068@nyu.edu](mailto:wj2068@nyu.edu)
+Feel free to contact me at [wj2068@nyu.edu](mailto:wj2068@nyu.edu)
 
 
 
