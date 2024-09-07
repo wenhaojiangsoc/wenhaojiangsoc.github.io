@@ -11,13 +11,13 @@ redirect_from:
 
 Welcome to this tiny corner of the internet! 
 
-I am a Ph.D. student at the [Department of Sociology](https://as.nyu.edu/departments/sociology.html), New York University.
+I am a Ph.D. candidate at the [Department of Sociology](https://as.nyu.edu/departments/sociology.html), New York University. I will be on job market during the 2024-25 cycle.
 
-My research centers on the intersection of work and occupations and sociology of culture. One strand of my research focuses on how people make sense of jobs and how the collective understanding of jobs in history shape the occupational structure and inequality today. Another strand of my work focuses on people's experience in their daily productions, and how their experience in time shape the wage and gender structure. I also study the inter-connections of jobs in both physical and semantic space.
+My research centers on the intersection of work and occupations and sociology of culture. One strand of my research focuses on how people make sense of jobs and how the collective understanding of jobs in history shape the occupational structure and inequality today. Another part of my work focuses on people's experience in their daily productions, and how their experience in time shape the wage and gender structure. I also study the inter-connections of jobs in both physical and semantic space.
 
- My previous work has been published in *Social Science and Medicine* and *Nature Scientific Reports*. My most recent work is under *Revise and Resubmit* in both *American Sociological Review* and *Social Forces*.
+ My previous work has been published in *Social Science and Medicine*. My most recent work is conditionally accepted in *American Sociological Review* or under *Revise and Resubmit* in *Social Forces*.
  
- Methodologically, I advance methods in Natural Language Processing (NLP) in the studies of work, occupations, and labor market, using both labor market data and uniquely substantial textual data, including historical publications and unstructured texts from online platforms.
+ Methodologically, I advance methods in Natural Language Processing (NLP) in the studies of work, occupations, and labor market, using both labor market data and uniquely substantial textual data. I also study causal inference methods and have been developing a new Cohort Discontinuity Design for studying social changes in response to a period shock. Please keep an eye on the new `R` package, `cohortDD`, that I will release soon!
  
  I am recently using over 40 million unstructured review data from [Glassdoor](https://www.glassdoor.com/) and [Indeed](https://indeed.com/) to understand work schedule precarity and (in)flexibility in the United States. If you have any collaborative interests, please feel free to reach me out.
 
