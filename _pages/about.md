@@ -15,7 +15,7 @@ I am a Ph.D. candidate at the [Department of Sociology](https://as.nyu.edu/depar
 
 I am broadly interested in social inequality and stratification. Much of my recent work center on the intersection of work and occupations and the sociology of culture. One line of inquiry examines on how people make sense of jobs and how the collective understanding of jobs in history shape the occupational structure and inequality today. Another part of my work focuses on people's experience in their daily productions, and how their time spent at work influences the wage and gender structure. 
 
- My previous work has been published in *Social Science and Medicine*. Some of my recent papers are conditionally accepted in *American Sociological Review* or are under *Revise and Resubmit* in *Social Forces*.
+ My previous work has been published in *Social Science and Medicine*. Some of my recent papers are conditionally accepted in *American Sociological Review* ([preprint](https://osf.io/preprints/socarxiv/8q3ca)) or are under *Revise and Resubmit* in *Social Forces*.
  
 Methodologically, I advance the use of computational techniques, particularly Natural Language Processing (NLP), in the study of work, occupations, and labor markets, combining labor market data with substantial textual data. I also focus on causal inference methods and have been developing a new Cohort Discontinuity Design for studying social changes in response to period shocks. Keep an eye on the new `R` package, `cohortDD`, which I will be releasing soon!
  
