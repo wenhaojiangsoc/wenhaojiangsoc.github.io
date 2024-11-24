@@ -11,7 +11,7 @@ redirect_from:
 
 Welcome to this tiny corner of the internet! 
 
-I am a Ph.D. candidate at the [Department of Sociology](https://as.nyu.edu/departments/sociology.html), New York University. I will be on the job market during the 2024-25 cycle.
+I am a Ph.D. candidate at the [Department of Sociology](https://as.nyu.edu/departments/sociology.html), New York University. I will join Duke University as a tenure-track Assistant Professor in 2025 Fall.
 
 I am broadly interested in social inequality and stratification. Much of my recent work center on the intersection of work and occupations and the sociology of culture. One line of inquiry examines on how people make sense of jobs and how the collective understanding of jobs in history shape the occupational structure and inequality today. Another part of my work focuses on people's experience in their daily productions, and how their time spent at work influences the wage and gender structure. 
 
