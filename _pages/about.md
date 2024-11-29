@@ -23,7 +23,7 @@ Methodologically, I advance the use of computational techniques, particularly Na
 
 Besides several internal fellowships or grants from NYU, I am also the recipient of the [Aage Sørensen Award](https://sites.google.com/site/rc28hp/travel-awards/recipients) from the International Sociological Association Research Committee on Stratification and Mobility (RC28), and the [Harvard-Yenching Institute Fellowship](https://www.harvard-yenching.org/).
 
-Prior to coming to NYU, I received a B.S. in Social Sciences ([Global China Studies])(https://shss.hkust.edu.hk/ug/major/gcs) from the Hong Kong University of Science and Technology, and a B.A. in Economics from Waseda University, both in 2020, funded by the [Bai Xian Asia Institute](https://www.bxai.org/).
+Prior to coming to NYU, I received a B.S. in Social Sciences ([Global China Studies](https://shss.hkust.edu.hk/ug/major/gcs)) from the Hong Kong University of Science and Technology, and a B.A. in Economics from Waseda University, both in 2020, funded by the [Bai Xian Asia Institute](https://www.bxai.org/).
 
 Feel free to contact me at [wj2068@nyu.edu](mailto:wj2068@nyu.edu)
 
