@@ -2,17 +2,17 @@
 layout: about
 title: about
 permalink: /
-subtitle: <a href='https://sociology.duke.edu/'>Department of Sociology<br>Trinity College of Arts & Sciences, Duke University<br>Reuben-Cooke Building, Durham, NC 27708-0312</a>
+subtitle: <div style="font-size: 0.925em;"><a href='https://sociology.duke.edu/'>Department of Sociology<br>Trinity College of Arts & Sciences, Duke University<br>Reuben-Cooke Building, Durham, NC 27708-0312</a></div>
 
 profile:
   align: right
   image: headshot.png
   image_circular: false # crops the image to make it circular
   more_info: >
-    <div style="width: 100%; text-align: right; font-size: 0.8em; margin-top: 0.1em;">credit to Ash Wang</div>
+    <div style="width: 100%; text-align: right; font-size: 0.8em; margin-top: 0em;">credit to Ash Wang</div>
 
 selected_papers: false # includes a list of papers marked as "selected={true}"
-social: true # includes social icons at the bottom of the page
+social: false # includes social icons at the bottom of the page
 
 announcements:
   enabled: false # includes a list of news items
