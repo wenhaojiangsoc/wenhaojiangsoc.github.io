@@ -2,14 +2,16 @@
 layout: about
 title: about
 permalink: /
-subtitle: <a href='https://sociology.duke.edu/'>Department of Sociology<br>Trinity College of Arts & Sciences<br>Reuben-Cooke Building, NC 27708</a>
+subtitle: <a href='https://sociology.duke.edu/'><span style="font-size: 0.9em;">Department of Sociology<br>Trinity College of Arts & Sciences, Duke University<br>Reuben-Cooke Building, Durham, NC 27708-0312</span></a>
 
 profile:
   align: right
   image: headshot.png
   image_circular: false # crops the image to make it circular
   more_info: >
-    <p style="text-align: right; font-size: 0.8em; margin-top: 0.1em;">credit to Ash Wang</p>
+    <div style="width: 100%; text-align: right; font-size: 0.8em; margin-top: 0.1em;">
+  credit to Ash Wang
+    </div>
 
 selected_papers: false # includes a list of papers marked as "selected={true}"
 social: true # includes social icons at the bottom of the page
@@ -27,4 +29,4 @@ latest_posts:
 
 Wenhao Jiang is an Assistant Professor of Sociology at Duke University. Jiang received his Ph.D. in Sociology from [New York University](https://as.nyu.edu/departments/sociology.html) in 2025. Before that, he completed a Bachelor of Science with the Highest Academic Honors at the [Hong Kong University in Science and Technology](https://shss.hkust.edu.hk/) and a Bachelor of Arts in Economics at [Waseda University](https://www.waseda.jp/fpse/pse/en/), both in 2020.
 
- Jiang's previous work has been published or is forthcoming in *American Sociological Review* and *Social Science & Medicine*. with additional work currently under *Revise and Resubmit* at *Social Forces*.
+ Jiang's previous work has been published or is forthcoming in *American Sociological Review* and *Social Science & Medicine*, with additional work currently under revise and resubmit at *Social Forces*.
