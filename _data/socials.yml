@@ -4,7 +4,7 @@
 
 # acm_id: # your dl.acm.org/profile/id
 # blogger_url: # your blogger URL
-bluesky_url: wenhaosoc.bsky.social
+# bluesky_url: wenhaosoc.bsky.social
 # dblp_url: # your DBLP profile url
 # discord_id: # your discord id (18-digit unique numerical identifier)
 email: wenhao.jiang@duke.edu # your email address
@@ -23,8 +23,8 @@ github_username: wenhaojiangsoc
 # linkedin_username: # your LinkedIn user name
 # mastodon_username: # your mastodon instance+username in the format instance.tld/@username
 # medium_username: # your Medium username
- orcid_id: 0000-0002-4457-6496
-# osf_id: # your OSF ID
+orcid_id: 0000-0002-4457-6496
+osf_id: zbnjm
 # pinterest_id: # your pinterest id
 # publons_id: # your ID on Publons
 # quora_username: # your Quora username
