@@ -9,9 +9,7 @@ profile:
   image: headshot.png
   image_circular: false # crops the image to make it circular
   more_info: >
-    <div style="width: 100%; text-align: right; font-size: 0.8em; margin-top: 0.1em;">
-  credit to Ash Wang
-    </div>
+    <div style="width: 100%; text-align: right; font-size: 0.8em; margin-top: 0.1em;">credit to Ash Wang</div>
 
 selected_papers: false # includes a list of papers marked as "selected={true}"
 social: true # includes social icons at the bottom of the page
