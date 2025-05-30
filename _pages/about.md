@@ -2,7 +2,7 @@
 layout: about
 title: about
 permalink: /
-subtitle: <a href='https://sociology.duke.edu/' style="font-size: 0.925em;>Department of Sociology<br>Trinity College of Arts & Sciences, Duke University<br>Reuben-Cooke Building, Durham, NC 27708-0312</a>
+subtitle: <a href='https://sociology.duke.edu/' style="font-size: 0.925em;">Department of Sociology<br>Trinity College of Arts & Sciences, Duke University<br>Reuben-Cooke Building, Durham, NC 27708-0312</a>
 
 profile:
   align: right
