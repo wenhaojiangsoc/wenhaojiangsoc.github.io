@@ -2,9 +2,7 @@
 layout: about
 title: about
 permalink: /
-subtitle: <a href='#'>Department of Sociology, Trinity College of Arts & Sciences
-Reuben-Cooke Building, Duke University
-Durham, NC 27710</a>.
+subtitle: <a href='https://sociology.duke.edu/'>Department of Sociology, Trinity College of Arts & Sciences</a>
 
 profile:
   align: right
