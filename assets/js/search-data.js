@@ -24,7 +24,7 @@ ninja.data = [{
             window.location.href = "/cv/";
           },
         },{id: "nav-teaching",
-          title: "teaching",
+          title: "Teaching",
           description: "A list of courses I teach with corresponding materials.",
           section: "Navigation",
           handler: () => {
