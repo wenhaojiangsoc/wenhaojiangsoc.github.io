@@ -304,6 +304,8 @@ filtered_bibtex_keywords:
   [
     abbr,
     abstract,
+    code,
+    supp,
     additional_info,
     altmetric,
     annotation,
@@ -312,7 +314,6 @@ filtered_bibtex_keywords:
     award_name,
     bibtex_show,
     blog,
-    code,
     google_scholar_id,
     html,
     inspirehep_id,
@@ -321,7 +322,6 @@ filtered_bibtex_keywords:
     preview,
     selected,
     slides,
-    supp,
     video,
     website,
   ]
