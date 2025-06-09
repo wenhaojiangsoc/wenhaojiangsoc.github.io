@@ -2,7 +2,6 @@
 layout: page
 permalink: /cv/
 title: CV
-description: My CV
 nav: true
 nav_order: 5
 ---
