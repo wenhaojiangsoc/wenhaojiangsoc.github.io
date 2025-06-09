@@ -25,6 +25,6 @@ latest_posts:
   limit: 3 # leave blank to include all the blog posts
 ---
 
-Wenhao Jiang is an Assistant Professor of Sociology at Duke University. Jiang received his Ph.D. in Sociology from [New York University](https://as.nyu.edu/departments/sociology.html) in 2025. Before that, he completed a Bachelor of Science with the Highest Academic Honors at the [Hong Kong University in Science and Technology](https://shss.hkust.edu.hk/) and a Bachelor of Arts in Economics at [Waseda University](https://www.waseda.jp/fpse/pse/en/), both in 2020.
+Wenhao Jiang is an Assistant Professor of Sociology at Duke University. Jiang received his Ph.D. in Sociology from [New York University](https://as.nyu.edu/departments/sociology.html) in 2025. Before that, he completed a Bachelor of Science with the Highest Academic Honors at the [Hong Kong University of Science and Technology](https://shss.hkust.edu.hk/) and a Bachelor of Arts in Economics at [Waseda University](https://www.waseda.jp/fpse/pse/en/), both in 2020.
 
  Jiang's previous work has been published or is forthcoming in *American Sociological Review* and *Social Science & Medicine*, with additional work currently under revise and resubmit at *Social Forces*.
