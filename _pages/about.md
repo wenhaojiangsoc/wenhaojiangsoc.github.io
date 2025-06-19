@@ -27,8 +27,8 @@ latest_posts:
 
 Wenhao Jiang is an Assistant Professor of Sociology at Duke University. I received Ph.D. in Sociology from [New York University](https://as.nyu.edu/departments/sociology.html) in 2025. Before that, I completed a Bachelor of Science with the Highest Academic Honors at the [Hong Kong University of Science and Technology](https://shss.hkust.edu.hk/) and a Bachelor of Arts in Economics at [Waseda University](https://www.waseda.jp/fpse/pse/en/), both in 2020.
 
-I primarily study inequality in the labor market and work, with particular attention to often-overlooked but increasingly important dimensions of social stratification, including cultural and moral framing (cultural space), scheduling practices (temporal space), and physical space—examining how work is organized, distributed, and segregated across micro-level interactions, meso-level workplaces, and macro-level geographies.
+I primarily study inequality in the labor market, with particular attention to often-overlooked but increasingly important dimensions of social stratification, including cultural and moral framing, scheduling practices, and physical space—examining how work is organized, distributed, and segregated across micro-level interactions, meso-level workplaces, and macro-level geographies.
 
-I am broadly interested in developing new sociological data and methodologies to engage classic debates and generate new perspectives—particularly through the use of textual and visual data, alongside causal inferential methods.
+I am broadly interested in developing new sociological data and methodologies to engage classic debates and generate new perspectives—particularly through the use of large-scale textual and visual data, alongside computational and causal inferential methods.
 
 My previous work has been published or is forthcoming in *American Sociological Review*, with additional work currently under revise and resubmit at *Social Forces*.
