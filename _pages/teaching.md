@@ -10,5 +10,5 @@ nav_order: 6
 ### Duke University
 
 [SOC690S](https://sociology.duke.edu/courses/seminar-selected-topics-0) Machine Learning in Causal Inference: Methodological Foundations and Sociological Applications \
-[Syllabus](https://github.com/wenhaojiangsoc) \
-[Course materials](https://github.com/wenhaojiangsoc)
+[Syllabus](https://github.com/wenhaojiangsoc/CML/blob/main/SOC690S%20Syllabus.pdf) \
+[Course materials](https://github.com/wenhaojiangsoc/CML)
