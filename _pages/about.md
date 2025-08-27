@@ -31,4 +31,4 @@ I primarily study inequality in the labor market, with particular attention to o
 
 I am broadly interested in developing new sociological data and methodologies to engage classic debates and generate new perspectives—particularly through the use of large-scale textual and visual data, alongside computational and causal inferential methods.
 
-My previous work has been published or is forthcoming in *American Sociological Review*, with additional work currently under revise and resubmit at *Social Forces*.
+My previous work has been published or is forthcoming in *American Sociological Review*, with additional work currently under revise and resubmit at *Social Forces*. My research has received awards from the American Sociological Association and from Research Committee 28 on Social Stratification and Mobility.
