@@ -13,5 +13,7 @@ nav_order: 6
 [Syllabus](https://github.com/wenhaojiangsoc/CML/blob/main/Syllabus.pdf) \
 [Course materials](https://github.com/wenhaojiangsoc/CML)
 
-[SOC590](https://sociology.duke.edu/courses/special-topics-sociology-1) Labor Market Stratification \
+---
+
+[SOC590](https://sociology.duke.edu/courses/special-topics-sociology-1) Labor Market Stratification: A Sociological Approach \
 [Syllabus](/assets/pdf/Labor%20Market%20Stratification%20Syllabus.pdf)
