@@ -12,3 +12,6 @@ nav_order: 6
 [SOC690S](https://sociology.duke.edu/courses/seminar-selected-topics-0) Machine Learning in Causal Inference: Methodological Foundations and Sociological Applications \
 [Syllabus](https://github.com/wenhaojiangsoc/CML/blob/main/Syllabus.pdf) \
 [Course materials](https://github.com/wenhaojiangsoc/CML)
+
+[SOC590](https://sociology.duke.edu/courses/special-topics-sociology-1) Labor Market Stratification \
+[Syllabus](/assets/pdf/Labor%20Market%20Stratification%20Syllabus.pdf)
