@@ -6,7 +6,7 @@ subtitle: <a href='https://sociology.duke.edu/'>Department of Sociology<br>Trini
 
 profile:
   align: right
-  image: headshot.png
+  image: headshot_blue.JPG
   image_circular: false # crops the image to make it circular
   more_info: >
     <div style="width: 100%; text-align: right; font-size: 0.8em; margin-top: 0em;">photo credit to Ash Wang</div>
