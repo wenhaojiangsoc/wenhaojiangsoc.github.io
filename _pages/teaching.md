@@ -9,6 +9,12 @@ nav_order: 6
 
 ### Duke University
 
+[SOC723](https://sociology.duke.edu/courses) Social Statistics II: Estimation, Causal Inference, and Machine Learning \
+[Syllabus](https://github.com/wenhaojiangsoc/SOCIOL723/blob/main/Syllabus.pdf) \
+[Course materials](https://github.com/wenhaojiangsoc/SOCIOL723)
+
+---
+
 [SOC690S](https://sociology.duke.edu/courses/seminar-selected-topics-0) Machine Learning in Causal Inference: Methodological Foundations and Sociological Applications \
 [Syllabus](https://github.com/wenhaojiangsoc/CML/blob/main/Syllabus.pdf) \
 [Course materials](https://github.com/wenhaojiangsoc/CML)
