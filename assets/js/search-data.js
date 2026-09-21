@@ -16,6 +16,13 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/publications/";
           },
+        },{id: "nav-working-papers",
+          title: "Working Papers",
+          description: "Work in progress and papers under review, with replication files when available.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/working_papers/";
+          },
         },{id: "nav-cv",
           title: "CV",
           description: "",
