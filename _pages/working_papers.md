@@ -17,77 +17,21 @@ nav_order: 3
     display: none;
   }
 
-  /* In the Pipeline: one milestone track per project. Dots mark the stages,
-     the line fills up to the current stage, and the current dot pulses.
-     Projects and stages live in _data/pipeline.yml. */
-  .pipeline {
-    --pl-soft: color-mix(in srgb, var(--global-theme-color) 10%, transparent);
-    --pl-ring: color-mix(in srgb, var(--global-theme-color) 28%, transparent);
-    margin-top: 3rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--global-divider-color);
+  /* In the Pipeline: entries reuse the bibliography layout, with the stage as
+     the badge and a stage track under the authors. Projects and stages live in
+     _data/pipeline.yml. */
+  .publications.pipeline h2.bibliography {
+    display: block;
   }
-  .pipeline h2 {
-    font-size: 1.5rem;
-    margin-bottom: 0.25rem;
+  .publications.pipeline .periodical {
+    display: block;
   }
-  .pipeline .lead {
-    color: var(--global-text-color-light);
-    margin-bottom: 1rem;
-  }
-  .pipeline .summary {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-    margin-bottom: 1.5rem;
-  }
-  .pipeline .summary .chip {
-    font-size: 0.8rem;
-    padding: 0.15rem 0.7rem;
-    border-radius: 999px;
-    background: var(--pl-soft);
-    color: var(--global-theme-color);
-  }
-  .pipeline .summary .chip b {
-    font-weight: 700;
-  }
-  .pipeline .card-item {
-    border: 1px solid var(--global-divider-color);
-    border-radius: 12px;
-    background: var(--global-card-bg-color);
-    padding: 1rem 1.1rem 0.9rem;
-    margin-bottom: 1rem;
-  }
-  .pipeline .head {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 0.75rem;
-  }
-  .pipeline .head .title {
-    font-weight: bolder;
-    line-height: 1.3;
-  }
-  .pipeline .head .authors {
-    font-size: 0.85rem;
-    color: var(--global-text-color-light);
-    margin-top: 0.15rem;
-  }
-  .pipeline .head .step-pill {
-    flex: none;
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.02em;
-    padding: 0.2rem 0.6rem;
-    border-radius: 999px;
-    background: var(--pl-soft);
-    color: var(--global-theme-color);
-    white-space: nowrap;
-    margin-top: 0.15rem;
+  .publications.pipeline .abbr abbr {
+    white-space: normal;
   }
   .pipeline .track {
     display: flex;
-    margin: 1rem 0 0.6rem;
+    margin: 0.6rem 0 0.3rem;
   }
   .pipeline .step {
     flex: 1;
@@ -97,10 +41,10 @@ nav_order: 3
   .pipeline .step::before {
     content: "";
     position: absolute;
-    top: 6px;
+    top: 4px;
     left: -50%;
     width: 100%;
-    height: 3px;
+    height: 1px;
     background: var(--global-divider-color);
   }
   .pipeline .step:first-child::before {
@@ -111,64 +55,31 @@ nav_order: 3
   }
   .pipeline .step .dot {
     position: relative;
-    z-index: 1;
     display: block;
-    width: 15px;
-    height: 15px;
+    width: 9px;
+    height: 9px;
     margin: 0 auto;
     border-radius: 50%;
-    background: var(--global-card-bg-color);
-    border: 3px solid var(--global-divider-color);
-    box-sizing: border-box;
+    background: var(--global-bg-color);
+    border: 1px solid var(--global-divider-color);
   }
   .pipeline .step.on .dot {
     background: var(--global-theme-color);
     border-color: var(--global-theme-color);
   }
-  .pipeline .step.cur .dot {
-    box-shadow: 0 0 0 4px var(--pl-ring);
-    animation: pipeline-pulse 2s ease-in-out infinite;
-  }
-  @keyframes pipeline-pulse {
-    0%, 100% { box-shadow: 0 0 0 4px var(--pl-ring); }
-    50% { box-shadow: 0 0 0 8px transparent; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .pipeline .step.cur .dot { animation: none; }
-  }
   .pipeline .step .lbl {
     display: block;
-    margin-top: 0.35rem;
-    font-size: 0.68rem;
+    text-align: center;
+    text-align-last: center;
+    margin-top: 0.25rem;
+    font-size: 0.7rem;
     line-height: 1.2;
     color: var(--global-text-color-light);
   }
-  .pipeline .step.on .lbl {
-    color: var(--global-text-color);
-  }
   .pipeline .step.cur .lbl {
     color: var(--global-theme-color);
-    font-weight: 700;
-  }
-  .pipeline .now {
-    font-size: 0.85rem;
-    color: var(--global-text-color-light);
-    margin-top: 0.3rem;
-  }
-  .pipeline .now::before {
-    content: "Now";
-    font-size: 0.68rem;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--global-theme-color);
-    margin-right: 0.5rem;
   }
   @media (max-width: 576px) {
-    .pipeline .head {
-      flex-direction: column;
-      gap: 0.4rem;
-    }
     .pipeline .step:not(.cur) .lbl {
       visibility: hidden;
     }
@@ -183,34 +94,27 @@ nav_order: 3
 
 {% assign stages = site.data.pipeline.stages %}
 {% assign projects = site.data.pipeline.projects %}
-{% assign n_stages = stages | size %}
 
-<section class="pipeline">
-  <h2>In the Pipeline</h2>
-  <p class="lead">Where each project stands right now, from first idea to revise and resubmit.</p>
-
-  <div class="summary">
-    {% for s in stages reversed %}{% assign k = projects | where: "stage", s.key | size %}{% if k > 0 %}<span class="chip"><b>{{ k }}</b> {{ s.label | downcase }}</span>{% endif %}{% endfor %}
-  </div>
-
+<div class="publications pipeline">
+  <h2 class="bibliography">In the Pipeline</h2>
+  <ol class="bibliography">
   {% for p in projects %}
   {% assign cur = 0 %}{% assign cur_label = "" %}
   {% for s in stages %}{% if s.key == p.stage %}{% assign cur = forloop.index %}{% assign cur_label = s.label %}{% endif %}{% endfor %}
-  <div class="card-item">
-    <div class="head">
-      <div>
-        <div class="title">{{ p.title }}</div>
-        <div class="authors">{{ p.authors }}</div>
+  <li><div class="row">
+    <div class="col col-sm-2 abbr"><abbr class="badge rounded w-100">{{ cur_label }}</abbr></div>
+    <div class="col-sm-8">
+      <div class="title">{{ p.title }}</div>
+      <div class="author">{{ p.authors }}</div>
+      <div class="track" role="img" aria-label="Stage {{ cur }} of {{ stages | size }}: {{ cur_label }}">
+        {% for s in stages %}<div class="step{% if forloop.index <= cur %} on{% endif %}{% if forloop.index == cur %} cur{% endif %}"><span class="dot"></span><span class="lbl">{{ s.label }}</span></div>{% endfor %}
       </div>
-      <span class="step-pill">Stage {{ cur }} / {{ n_stages }}</span>
+      <div class="periodical"><em>{{ p.now }}</em></div>
     </div>
-    <div class="track" role="img" aria-label="Stage {{ cur }} of {{ n_stages }}: {{ cur_label }}">
-      {% for s in stages %}<div class="step{% if forloop.index <= cur %} on{% endif %}{% if forloop.index == cur %} cur{% endif %}"><span class="dot"></span><span class="lbl">{{ s.label }}</span></div>{% endfor %}
-    </div>
-    <div class="now">{{ p.now }}</div>
-  </div>
+  </div></li>
   {% endfor %}
-</section>
+  </ol>
+</div>
 
 <script>
   // Show abstracts by default; the Abs button still toggles them closed and open.
