@@ -1,0 +1,63 @@
+# Projects in the pipeline, shown on the Working Papers page.
+# `stage` must be one of the keys in `stages` below; the bar fills up to it.
+# Edit `now` to describe what is happening at the moment.
+
+stages:
+  - key: conception
+    label: Conception
+  - key: data
+    label: Data collection
+  - key: analysis
+    label: Analysis
+  - key: drafting
+    label: Drafting
+  - key: review
+    label: Under review
+  - key: rr
+    label: Revise & resubmit
+
+projects:
+  - title: "The Color of Activity Space: Redlining and the Racial Segregation of Everyday Places"
+    authors: Wenhao Jiang and Yongjun Zhang
+    stage: rr
+    now: Revised manuscript resubmitted to Demography.
+
+  - title: "The Growing Geographic Affinity Between High- and Low-Paying Occupations"
+    authors: Wenhao Jiang and Siwei Cheng
+    stage: review
+    now: Full manuscript under journal review.
+
+  - title: "Bad Health, Bad Jobs, But for Whom? Health Status, Gender, and Sorting Into Precarious Work"
+    authors: Linsey Edwards and Wenhao Jiang
+    stage: review
+    now: Full manuscript under journal review.
+
+  - title: "Economic Crisis and the Discipline of Work Time"
+    authors: Wenhao Jiang
+    stage: drafting
+    now: Complete draft; available upon request.
+
+  - title: "Corporate Control and Precarious Scheduling: Evidence from Job Reviews"
+    authors: Jake Burchard, Wenhao Jiang, and Alejandro Sarria
+    stage: analysis
+    now: Hand-coded job reviews finalized; fine-tuning an LLM classifier for schedule and job control.
+
+  - title: "Detection of Social Interaction through Images"
+    authors: Bruce Yue Yu, Wenhao Jiang, and Siwei Cheng
+    stage: analysis
+    now: Fine-tuning a vision-language model on 12,000 annotated photo pairs; methods draft in progress.
+
+  - title: "When Work Disconnects: The Segregation of Occupational Exposure in Everyday Mobility Networks"
+    authors: Siwei Cheng and Wenhao Jiang
+    stage: data
+    now: Building block-level workplace occupation estimates from LODES, ACS, and CTPP for New York City.
+
+  - title: "Who Talks to Whom? Segregation in Informal Interactions at Academic Conferences as a Particular Workplace"
+    authors: Siwei Cheng and Wenhao Jiang
+    stage: data
+    now: Applying the image-based interaction detector to conference photographs.
+
+  - title: "Housing Status and Hiring: A Correspondence Audit of Homelessness"
+    authors: Wenhao Jiang
+    stage: conception
+    now: Funding letter of inquiry drafted; survey pretest and IRB protocol in preparation.
