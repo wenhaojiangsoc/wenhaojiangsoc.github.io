@@ -11,6 +11,8 @@ stages:
     label: Analysis
   - key: drafting
     label: Drafting
+  - key: revising
+    label: Revising after review
   - key: review
     label: Under review
   - key: rr
@@ -18,46 +20,46 @@ stages:
 
 projects:
   - title: "The Color of Activity Space: Redlining and the Racial Segregation of Everyday Places"
-    authors: Wenhao Jiang and Yongjun Zhang
+    authors: Wenhao Jiang and Yongjun Zhang (equal authorship)
     stage: rr
     now: Revised manuscript resubmitted to Demography.
 
   - title: "The Growing Geographic Affinity Between High- and Low-Paying Occupations"
-    authors: Wenhao Jiang and Siwei Cheng
-    stage: review
-    now: Full manuscript under journal review.
+    authors: Wenhao Jiang and Siwei Cheng (equal authorship)
+    stage: revising
+    now: Revising after a journal rejection for submission elsewhere.
 
   - title: "Bad Health, Bad Jobs, But for Whom? Health Status, Gender, and Sorting Into Precarious Work"
-    authors: Linsey Edwards and Wenhao Jiang
-    stage: review
-    now: Full manuscript under journal review.
+    authors: Linsey Edwards and Wenhao Jiang (equal authorship)
+    stage: revising
+    now: Revising after a journal rejection for submission elsewhere.
 
   - title: "Economic Crisis and the Discipline of Work Time"
     authors: Wenhao Jiang
     stage: drafting
     now: Complete draft; available upon request.
 
+  - title: "Detection of Social Interaction through Images"
+    authors: Bruce Yue Yu, Wenhao Jiang (equal authorship), and Siwei Cheng
+    stage: drafting
+    now: Fine-tuning a vision-language model on 12,000 annotated photo pairs; methods draft in progress.
+
   - title: "Corporate Control and Precarious Scheduling: Evidence from Job Reviews"
-    authors: Jake Burchard, Wenhao Jiang, and Alejandro Sarria
+    authors: Jake Burchard, Wenhao Jiang (equal authorship), and Alejandro Sarria
     stage: analysis
     now: Hand-coded job reviews finalized; fine-tuning an LLM classifier for schedule and job control.
 
-  - title: "Detection of Social Interaction through Images"
-    authors: Bruce Yue Yu, Wenhao Jiang, and Siwei Cheng
-    stage: analysis
-    now: Fine-tuning a vision-language model on 12,000 annotated photo pairs; methods draft in progress.
-
   - title: "When Work Disconnects: The Segregation of Occupational Exposure in Everyday Mobility Networks"
-    authors: Siwei Cheng and Wenhao Jiang
+    authors: Siwei Cheng and Wenhao Jiang (equal authorship)
     stage: data
     now: Building block-level workplace occupation estimates from LODES, ACS, and CTPP for New York City.
 
   - title: "Who Talks to Whom? Segregation in Informal Interactions at Academic Conferences as a Particular Workplace"
-    authors: Siwei Cheng and Wenhao Jiang
+    authors: Siwei Cheng and Wenhao Jiang (equal authorship)
     stage: data
     now: Applying the image-based interaction detector to conference photographs.
 
   - title: "Housing Status and Hiring: A Correspondence Audit of Homelessness"
-    authors: Wenhao Jiang
+    authors: Wenhao Jiang and Jerry Eiswerth
     stage: conception
     now: Funding letter of inquiry drafted; survey pretest and IRB protocol in preparation.
