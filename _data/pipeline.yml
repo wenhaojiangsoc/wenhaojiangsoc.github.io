@@ -44,10 +44,10 @@ projects:
     stage: drafting
     now: Fine-tuning a vision-language model on 12,000 annotated photo pairs; methods draft in progress.
 
-  - title: "Corporate Control and Precarious Scheduling: Evidence from Job Reviews"
+  - title: "Who Pays for Shareholder Power? Governance Votes, Index Funds, and Precarious Work Schedules"
     authors: Jake Burchard, Wenhao Jiang (equal authorship), and Alejandro Sarria
-    stage: analysis
-    now: Hand-coded job reviews finalized; fine-tuning an LLM classifier for schedule and job control.
+    stage: drafting
+    now: Analysis complete; full manuscript draft in progress.
 
   - title: "When Work Disconnects: The Segregation of Occupational Exposure in Everyday Mobility Networks"
     authors: Siwei Cheng and Wenhao Jiang (equal authorship)
