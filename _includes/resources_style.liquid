@@ -1,0 +1,168 @@
+<style>
+  /* Resources: a quiet, numbered layout for guides, in the same spirit as the
+     Teaching and Working Papers pages. Used by _pages/blog.md and post layout. */
+
+  /* Resources list */
+  .resources h2.group {
+    font-size: 1.5rem;
+    margin: 1.5rem 0 0.75rem;
+  }
+  .resources .entry {
+    padding: 0.9rem 0;
+    border-top: 1px solid var(--global-divider-color);
+  }
+  .resources .entry:first-of-type {
+    border-top: none;
+    padding-top: 0;
+  }
+  .resources .entry .desc {
+    margin: 0.15rem 0 0.2rem;
+  }
+  .resources .entry .meta {
+    font-size: 0.8rem;
+    color: var(--global-text-color-light);
+  }
+
+  /* Post header */
+  .post-header .post-title {
+    text-align: left;
+  }
+  .post-header .post-tags {
+    display: none;
+  }
+  .post-header {
+    margin-bottom: 1.75rem;
+  }
+
+  /* Numbered sections */
+  #markdown-content {
+    counter-reset: section;
+  }
+  #markdown-content h2,
+  #markdown-content h3,
+  #markdown-content h5 {
+    text-align: left;
+  }
+  #markdown-content h2 {
+    counter-increment: section;
+    font-size: 1.5rem;
+    margin-top: 2.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--global-divider-color);
+  }
+  #markdown-content h2::before {
+    content: counter(section);
+    color: var(--global-theme-color);
+    margin-right: 0.6rem;
+  }
+  #markdown-content h3 {
+    font-size: 1.1rem;
+    font-weight: bolder;
+    margin-top: 1.5rem;
+  }
+  #markdown-content table {
+    font-size: 0.9rem;
+  }
+
+  /* Callouts: a thin colored edge instead of a filled box */
+  #markdown-content blockquote.block-tip,
+  #markdown-content blockquote.block-warning,
+  #markdown-content blockquote.block-danger {
+    background: transparent;
+    border-left: 2px solid var(--global-theme-color);
+    padding: 0.1rem 0 0.1rem 1rem;
+    margin: 1.5rem 0;
+    color: var(--global-text-color);
+  }
+  #markdown-content blockquote.block-warning {
+    border-left-color: #b8860b;
+  }
+  #markdown-content blockquote.block-danger {
+    border-left-color: #b03a2e;
+  }
+  #markdown-content blockquote h5 {
+    font-size: 0.95rem;
+    font-weight: bolder;
+    color: var(--global-text-color);
+    margin: 0.2rem 0 0.4rem;
+  }
+  #markdown-content blockquote p {
+    color: var(--global-text-color);
+    font-size: 1rem;
+    text-align: left;
+  }
+
+  /* Sidebar contents, numbered to match the sections */
+  #toc-sidebar {
+    counter-reset: toc;
+    text-align: left;
+  }
+  #toc-sidebar > ul > li {
+    counter-increment: toc;
+  }
+  #toc-sidebar > ul > li > a::before {
+    content: counter(toc);
+    color: var(--global-theme-color);
+    margin-right: 0.5rem;
+  }
+  #toc-sidebar a,
+  #toc-sidebar a.active {
+    text-align: left;
+    font-size: 0.85rem;
+    font-weight: normal;
+    line-height: 1.4;
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
+    color: var(--global-text-color-light);
+    border-left-width: 1px;
+  }
+  #toc-sidebar ul ul a,
+  #toc-sidebar ul ul a.active {
+    font-size: 0.8rem;
+  }
+  #toc-sidebar a.active {
+    color: var(--global-theme-color);
+  }
+
+  /* Workflow diagram */
+  .flow {
+    margin: 1.75rem 0;
+  }
+  .flow svg {
+    width: 100%;
+    height: auto;
+    font-family: inherit;
+  }
+  .flow rect {
+    fill: var(--global-bg-color);
+    stroke: var(--global-divider-color);
+    stroke-width: 1;
+  }
+  .flow text {
+    text-anchor: middle;
+  }
+  .flow .t {
+    fill: var(--global-text-color);
+    font-size: 16px;
+    font-weight: bolder;
+  }
+  .flow .s {
+    fill: var(--global-text-color-light);
+    font-size: 13px;
+  }
+  .flow .l {
+    fill: var(--global-theme-color);
+    font-size: 13px;
+  }
+  .flow .a {
+    stroke: var(--global-theme-color);
+    stroke-width: 1.25;
+    fill: none;
+  }
+  .flow .back {
+    stroke-dasharray: 3 3;
+  }
+  .flow .head {
+    fill: var(--global-theme-color);
+  }
+</style>
