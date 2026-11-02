@@ -18,7 +18,7 @@ nav_order: 7
   {% assign read_time = post.content | number_of_words | divided_by: 180 | plus: 1 %}
   <div class="entry">
     <a class="title" href="{{ post.url | relative_url }}">{{ post.title }}</a>
-    <div class="desc">{{ post.description }}</div>
+    {% if post.description %}<div class="desc">{{ post.description }}</div>{% endif %}
     <div class="meta">{{ post.date | date: "%B %-d, %Y" }} &middot; {{ read_time }} min read</div>
   </div>
   {% endfor %}
