@@ -24,7 +24,7 @@ The idea is simple: the DCC lets you do what you already do on your laptop, on a
 <text x="96" y="90" class="s">data · code · job script</text>
 <rect x="265" y="35" width="190" height="76" rx="8"/>
 <text x="360" y="68" class="t">DCC storage</text>
-<text x="360" y="90" class="s">/hpc/group/wenhaolab</text>
+<text x="360" y="90" class="s">/hpc/dctrl/&lt;netid&gt;</text>
 <rect x="529" y="35" width="190" height="76" rx="8"/>
 <text x="624" y="68" class="t">Compute nodes</text>
 <text x="624" y="90" class="s">CPUs · GPUs · memory</text>
@@ -63,24 +63,22 @@ Slurm reserves exactly what you request for the whole life of the job, whether o
 
 You need a Duke NetID and a working Duo login. The Duke VPN is not required.
 
-### For the Pro-Seminar
-
-Before the session, I add each of you to my research group, `wenhaolab`, in [Research Toolkits](https://rtoolkits.web.duke.edu). This gives you temporary access to the cluster and to the demo files in `/hpc/group/wenhaolab/Proseminar`. Please send me your NetID if I do not have it yet.
-
-This access is for the session and a short period after. For your own research, claim your PhD allocation below.
-
-### Your own PhD allocation
-
-Duke PhD students can claim a personal allocation with compute hours and 500 GB of storage, independent of any lab.
+Every Duke PhD student can claim a personal allocation with compute hours and 500 GB of storage at `/hpc/dctrl/<netid>`. It is yours, independent of any lab, and it is what we use in the Pro-Seminar.
 
 1. Log in to [Research Toolkits](https://rtoolkits.web.duke.edu) and click **Claim Doctoral Resources**.
 2. Open the new project, choose **Add a service**, and select **DCC Grant**.
+3. Once it is ready, check that you can log in: `ssh <netid>@dcc-login.oit.duke.edu`.
 
 The second step is easy to miss: without it the project does not give you cluster access. See Duke's [PhD allocation guide](https://dcc.duke.edu/help/Phdstudentaccess/).
 
+> ##### Before November 20
+>
+> Claim your allocation by **November 13** and test your login, so there is time to fix problems before the session. Please bring a laptop with Globus Connect Personal installed (see below).
+{: .block-tip }
+
 > ##### If you cannot log in
 >
-> Allow some time for provisioning after being added, and make sure Duo works at [Duke MFA help](https://idms-mfa.oit.duke.edu/mfa/help). If it still fails, email [rescomputing@duke.edu](mailto:rescomputing@duke.edu) with the command you ran and its full output.
+> Allow some time for provisioning after adding the DCC Grant, and make sure Duo works at [Duke MFA help](https://idms-mfa.oit.duke.edu/mfa/help). If it still fails, email [rescomputing@duke.edu](mailto:rescomputing@duke.edu) with the command you ran and its full output.
 {: .block-warning }
 
 ## Move your files
@@ -88,17 +86,19 @@ The second step is easy to miss: without it the project does not give you cluste
 [Globus](https://app.globus.org) is the easiest way to move files between your computer and the DCC.
 
 1. Install **Globus Connect Personal** and log in at [app.globus.org](https://app.globus.org) with your Duke account.
-2. In the File Manager, set one panel to **Duke Compute Cluster (DCC) Data Transfer Node** at `/hpc/group/wenhaolab/`.
+2. In the File Manager, set one panel to **Duke Compute Cluster (DCC) Data Transfer Node** at `/hpc/dctrl/<netid>/`.
 3. Set the other panel to your own computer.
 4. Select files and click **Start**.
+
+For the Pro-Seminar, download the demo folder `proseminar` (linked in the session email) and transfer it this way, so it sits at `/hpc/dctrl/<netid>/proseminar` with `Data/` and `Codes/` inside.
 
 ### Where things live
 
 | Location               | Size              | Use it for                                     | Kept                         |
 | :--------------------- | :---------------- | :--------------------------------------------- | :--------------------------- |
 | `/hpc/home/<netid>`    | 25 GB             | Scripts, settings, environment setup           | While your NetID is active   |
-| `/hpc/group/wenhaolab` | 1 TB, shared      | Lab data and code                              | Persistent, 7-day snapshots  |
-| `/hpc/dctrl/<netid>`   | 500 GB            | Your PhD allocation                            | Persistent, no backups       |
+| `/hpc/dctrl/<netid>`   | 500 GB            | Your PhD allocation: data and code             | Persistent, no backups       |
+| `/hpc/group/<lab>`     | 1 TB, shared      | A lab's shared data, if your advisor has a group | Persistent, 7-day snapshots  |
 | `/work/<netid>`        | Large, shared     | Big data sets and intermediate results         | **Purged after 75 days**     |
 
 Treat `/work` as scratch: anything older than 75 days is deleted automatically. Keep code and anything you cannot afford to lose elsewhere. See Duke's [storage guide](https://dcc.duke.edu/storage/) for details.
@@ -110,7 +110,7 @@ Treat `/work` as scratch: anything older than 75 days is deleted automatically. 
 Your code usually runs unchanged. Only the file paths need to point to the DCC instead of your laptop:
 
 ```r
-acs <- read.csv("/hpc/group/wenhaolab/Proseminar/Data/demoACS.csv")
+acs <- read.csv("/hpc/dctrl/<netid>/proseminar/Data/demoACS.csv")
 ```
 
 ### Write a job script
@@ -151,7 +151,7 @@ ssh <netid>@dcc-login.oit.duke.edu
 Type your Duke password (nothing appears as you type) and approve the Duo prompt. Then go to your code and submit:
 
 ```bash
-cd /hpc/group/wenhaolab/Proseminar/Codes
+cd /hpc/dctrl/<netid>/proseminar/Codes
 mkdir -p logs
 sbatch demo.sh
 ```
@@ -222,7 +222,7 @@ Rscript boot.R
 ```r
 task <- as.integer(Sys.getenv("SLURM_ARRAY_TASK_ID"))
 set.seed(task)
-acs  <- read.csv("/hpc/group/wenhaolab/Proseminar/Data/demoACS.csv")
+acs  <- read.csv("/hpc/dctrl/<netid>/proseminar/Data/demoACS.csv")
 boot <- acs[sample(nrow(acs), replace = TRUE), ]
 fit  <- lm(y ~ x, data = boot)   # replace with your model
 saveRDS(coef(fit), sprintf("results/boot_%03d.rds", task))
