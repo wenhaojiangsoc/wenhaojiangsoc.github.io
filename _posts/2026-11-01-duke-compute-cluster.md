@@ -346,7 +346,7 @@ cat ~/.ssh/id_ed25519.pub
 
 Copy the line that `cat` prints, which is your public key. Paste it at Duke's [account self-service](https://idms-web-selfservice.oit.duke.edu/advanced) under **Manage Your Public SSH Keys**. Then check that `ssh <netid>@dcc-login.oit.duke.edu` asks for your key's passphrase instead of your Duke password.
 
-### Step 2: Add a `dcc-agent` connection
+### Step 2: Add a dcc-agent connection
 
 Create a folder for shared connections:
 

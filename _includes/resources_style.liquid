@@ -170,6 +170,7 @@
     border-left: 2px solid var(--global-theme-color);
     padding: 0.1rem 0 0.1rem 1rem;
     margin: 1.5rem 0;
+    font-size: 1rem;
     color: var(--global-text-color);
   }
   #markdown-content blockquote.block-warning {
@@ -184,10 +185,17 @@
     color: var(--global-text-color);
     margin: 0.2rem 0 0.4rem;
   }
-  #markdown-content blockquote p {
+  #markdown-content blockquote p,
+  #markdown-content blockquote li,
+  #markdown-content blockquote em,
+  #markdown-content blockquote strong {
     color: var(--global-text-color);
     font-size: 1rem;
     text-align: left;
+  }
+  #markdown-content blockquote ul {
+    margin: 0.4rem 0 0.2rem;
+    padding-left: 1.25rem;
   }
 
   /* Sidebar contents, numbered to match the sections */
