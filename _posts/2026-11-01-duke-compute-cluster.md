@@ -73,7 +73,7 @@ The second step is easy to miss: without it the project does not give you cluste
 
 > ##### Before November 20
 >
-> Claim your allocation by **November 13** and test your login, so there is time to fix problems before the session. Please bring a laptop with Globus Connect Personal installed (see below).
+> Claim your allocation by **November 13** and test your login, so there is time to fix problems before the session. Please bring a laptop.
 {: .block-tip }
 
 > ##### If you cannot log in
@@ -90,7 +90,7 @@ The second step is easy to miss: without it the project does not give you cluste
 3. Set the other panel to your own computer.
 4. Select files and click **Start**.
 
-For the Pro-Seminar, download the demo folder `proseminar` (linked in the session email) and transfer it this way, so it sits at `/hpc/dctrl/<netid>/proseminar` with `Data/` and `Codes/` inside.
+Files that are already online, such as public data, can skip your laptop entirely: download them on the DCC with `curl`, as in the next section.
 
 ### Where things live
 
@@ -105,17 +105,62 @@ Treat `/work` as scratch: anything older than 75 days is deleted automatically. 
 
 ## Run your first job
 
+### Connect
+
+Open Terminal (macOS) or MobaXterm (Windows) and log in with your NetID:
+
+```bash
+ssh <netid>@dcc-login.oit.duke.edu
+```
+
+Type your Duke password (nothing appears as you type) and approve the Duo prompt. You are now on a login node.
+
+### Get the course files
+
+The examples use the Census Bureau's 2024 [American Community Survey](https://www.census.gov/programs-surveys/acs/microdata.html) person file for North Carolina: all 114,270 respondents, trimmed to 17 variables. Download it and the scripts straight into your allocation:
+
+```bash
+mkdir -p /hpc/dctrl/$USER/proseminar && cd /hpc/dctrl/$USER/proseminar
+mkdir -p data logs results
+base=https://wenhaojiangsoc.github.io/assets/proseminar
+curl -sL -o data/acs_nc_2024.csv $base/acs_nc_2024.csv
+for f in demo.R demo.sh boot.R boot.sh combine.R combine.sh mnist.py mnist.sh; do curl -sLO $base/$f; done
+ls
+```
+
+On the DCC, `$USER` is your NetID. The variables used below are:
+
+| Variable | Meaning                                                                                         |
+| :------- | :---------------------------------------------------------------------------------------------- |
+| `agep`   | Age                                                                                             |
+| `sex`    | 1 male, 2 female                                                                                |
+| `schl`   | Educational attainment; 21 and above is a bachelor's degree or more                             |
+| `wkhp`   | Usual hours worked per week                                                                     |
+| `wagp`   | Wages in the past 12 months                                                                     |
+| `pwgtp`  | Person weight                                                                                   |
+
+The file also has race, Hispanic origin, marital status, employment status, class of worker, occupation, total income, and geographic and household identifiers. Codes follow the Census [data dictionary](https://www.census.gov/programs-surveys/acs/microdata/documentation.html). Blank cells are "not applicable", such as wages for children, and R reads them as `NA`.
+
 ### Point your code at the cluster
 
-Your code usually runs unchanged. Only the file paths need to point to the DCC instead of your laptop:
+Your code usually runs unchanged. Only the file paths need to point to files on the DCC instead of your laptop. `demo.R` estimates the college wage premium among full-time workers:
 
 ```r
-acs <- read.csv("/hpc/dctrl/<netid>/proseminar/Data/demoACS.csv")
+acs <- read.csv("data/acs_nc_2024.csv")
+
+w <- subset(acs, agep >= 25 & agep <= 64 & wagp > 0 & wkhp >= 35)
+w$college <- as.integer(w$schl >= 21)   # bachelor's degree or more
+w$female  <- as.integer(w$sex == 2)
+
+fit <- lm(log(wagp) ~ college + female + agep + I(agep^2), data = w, weights = pwgtp)
+print(summary(fit))
 ```
+
+The path `data/acs_nc_2024.csv` is relative: a job starts in the folder you submit it from, here `/hpc/dctrl/<netid>/proseminar`.
 
 ### Write a job script
 
-A job script is a shell script whose `#SBATCH` lines request resources from Slurm. Save this as `demo.sh` next to your code:
+A job script is a shell script whose `#SBATCH` lines request resources from Slurm. This is `demo.sh`:
 
 ```bash
 #!/usr/bin/env bash
@@ -125,8 +170,6 @@ A job script is a shell script whose `#SBATCH` lines request resources from Slur
 #SBATCH --mem=8G
 #SBATCH --time=01:00:00
 #SBATCH --output=logs/%x_%j.out
-#SBATCH --mail-type=END,FAIL
-#SBATCH --mail-user=<netid>@duke.edu
 
 module load R-openblas/4.6.1
 Rscript demo.R
@@ -136,27 +179,26 @@ Rscript demo.R
 | :------------- | :--------------------------------------------------------------------------------------------------------------- |
 | `--partition`  | The queue to use. `common` is the default for CPU jobs ([all partitions](https://dcc.duke.edu/dcc/partitions/))  |
 | `--cpus-per-task`, `--mem`, `--time` | What you request. See [Request the right resources](#request-the-right-resources)                |
-| `--output`     | Where printed output goes. `%x` is the job name and `%j` the job ID. Create the folder first with `mkdir logs`  |
-| `--mail-type`  | Email you when the job ends or fails                                                                             |
+| `--output`     | Where printed output goes. `%x` is the job name and `%j` the job ID. The `logs` folder must already exist      |
 | `module load`  | The software to use. `module avail` lists everything installed                                                   |
 
-### Connect and submit
+To get an email when a job ends or fails, add `#SBATCH --mail-type=END,FAIL` and `#SBATCH --mail-user=<netid>@duke.edu`.
 
-Open Terminal (macOS) or MobaXterm (Windows) and log in with your NetID:
+### Submit
 
-```bash
-ssh <netid>@dcc-login.oit.duke.edu
-```
-
-Type your Duke password (nothing appears as you type) and approve the Duo prompt. Then go to your code and submit:
+From the `proseminar` folder:
 
 ```bash
-cd /hpc/dctrl/<netid>/proseminar/Codes
-mkdir -p logs
 sbatch demo.sh
 ```
 
-Slurm replies with a job ID, such as `Submitted batch job 186554`. The job runs as soon as resources are free, whether or not you stay logged in.
+Slurm replies with a job ID, such as `Submitted batch job 186554`. The job runs as soon as resources are free, whether or not you stay logged in. When `squeue --me` no longer lists it, read the output:
+
+```bash
+cat logs/demo_186554.out
+```
+
+The coefficient on `college` should be about 0.64: full-time workers with a bachelor's degree earn roughly 90% more, holding sex and age fixed.
 
 > ##### Do not compute on the login node
 >
@@ -181,8 +223,8 @@ One CPU is enough for most R and Stata scripts. Ask for more only if your code u
 library(parallel)
 cores <- as.integer(Sys.getenv("SLURM_CPUS_PER_TASK"))
 results <- mclapply(1:100, function(b) {
-  boot <- acs[sample(nrow(acs), replace = TRUE), ]
-  coef(lm(y ~ x, data = boot))   # replace with your model
+  boot <- w[sample(nrow(w), replace = TRUE), ]
+  coef(lm(log(wagp) ~ college + female + agep + I(agep^2), data = boot, weights = pwgtp))
 }, mc.cores = cores)
 ```
 
@@ -202,11 +244,12 @@ seff <jobid>
 
 ### Job arrays
 
-Many social science tasks are the same code run many times: bootstrap draws, simulations, one model per state or year. A **job array** submits all of them from one script. Each copy receives its own number in `SLURM_ARRAY_TASK_ID`.
+Many social science tasks are the same code run many times: bootstrap draws, simulations, one model per state or year. A **job array** submits all of them from one script. Each copy receives its own number in `SLURM_ARRAY_TASK_ID`. This is `boot.sh`:
 
 ```bash
 #!/usr/bin/env bash
 #SBATCH --job-name=boot
+#SBATCH --partition=common
 #SBATCH --array=1-100%20
 #SBATCH --cpus-per-task=1
 #SBATCH --mem=8G
@@ -222,13 +265,15 @@ Rscript boot.R
 ```r
 task <- as.integer(Sys.getenv("SLURM_ARRAY_TASK_ID"))
 set.seed(task)
-acs  <- read.csv("/hpc/dctrl/<netid>/proseminar/Data/demoACS.csv")
-boot <- acs[sample(nrow(acs), replace = TRUE), ]
-fit  <- lm(y ~ x, data = boot)   # replace with your model
+
+# ... read the data and build w as in demo.R ...
+
+boot <- w[sample(nrow(w), replace = TRUE), ]
+fit  <- lm(log(wagp) ~ college + female + agep + I(agep^2), data = boot, weights = pwgtp)
 saveRDS(coef(fit), sprintf("results/boot_%03d.rds", task))
 ```
 
-When all tasks finish, a short script reads the 100 files in `results/` and combines them. If task 37 fails, rerun just that one with `sbatch --array=37 boot.sh`. The same pattern works for one task per input file: put the file names in a list and let each task pick the line matching its number.
+When all tasks finish, `combine.R` reads the 100 files in `results/` and reports bootstrap standard errors. If task 37 fails, rerun just that one with `sbatch --array=37 boot.sh`. The same pattern works for one task per input file: put the file names in a list and let each task pick the line matching its number.
 
 ### Chaining jobs
 
@@ -238,6 +283,8 @@ To start a job only after another succeeds, such as combining results after the 
 jid=$(sbatch --parsable boot.sh)
 sbatch --dependency=afterok:$jid combine.sh
 ```
+
+`afterok` waits until every task in the array has succeeded. Then `cat logs/combine_*.out` shows the estimates and their standard errors.
 
 ## GPUs and interactive work
 
@@ -268,6 +315,53 @@ srun --partition=gpu-common --gres=gpu:1 --mem=16G --time=01:00:00 --pty bash
 
 Run `gpuavail gpu-common` on the login node to see which GPU types are free right now. The `gpu-common` partition allows jobs of up to 2 days.
 
+### Example: train a neural network
+
+The classic first neural network learns to read handwritten digits from [MNIST](https://en.wikipedia.org/wiki/MNIST_database), 70,000 small images. `mnist.py` trains a small convolutional network in PyTorch that reaches about 99% accuracy on held-out images after five passes over the data.
+
+**Set up Python once.** Duke recommends [Miniforge](https://dcc.duke.edu/software/user/) for Python. Install it in your allocation, since environments quickly fill the 25 GB home folder:
+
+```bash
+PREFIX=/hpc/dctrl/$USER/miniforge3
+wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
+bash Miniforge3-Linux-x86_64.sh -b -p "$PREFIX"
+"$PREFIX/bin/conda" init bash
+rm Miniforge3-Linux-x86_64.sh
+```
+
+Log out and back in; your prompt now starts with `(base)`. Then create an environment with PyTorch, which takes several minutes:
+
+```bash
+conda create -n torch python=3.12 -y
+conda activate torch
+pip install torch torchvision
+```
+
+**Get the images and submit.** Download MNIST once, then submit `mnist.sh`:
+
+```bash
+cd /hpc/dctrl/$USER/proseminar
+python -c "from torchvision import datasets; datasets.MNIST('data', download=True)"
+sbatch mnist.sh
+```
+
+```bash
+#!/usr/bin/env bash
+#SBATCH --job-name=mnist
+#SBATCH --partition=gpu-common
+#SBATCH --gres=gpu:1
+#SBATCH --cpus-per-task=2
+#SBATCH --mem=8G
+#SBATCH --time=00:30:00
+#SBATCH --output=logs/%x_%j.out
+
+source "$(conda info --base)/etc/profile.d/conda.sh"
+conda activate torch
+python mnist.py
+```
+
+Batch jobs do not read your `~/.bashrc`, so the `source` line loads conda before activating the environment. The log, `logs/mnist_<jobid>.out`, starts with the name of the GPU, then one line per pass with test accuracy and seconds taken. On a laptop CPU, each pass takes about 12 seconds; compare that with your GPU. If the log says `Running on CPU`, the job did not get a GPU: check the `--partition` and `--gres` lines.
+
 > ##### Prefer a browser?
 >
 > [Open OnDemand](https://dcc-ondemand-01.oit.duke.edu) runs RStudio, Jupyter, and a Linux desktop on the DCC in your web browser, no terminal needed. It is a gentle way to start, and it still runs on compute nodes.
@@ -295,7 +389,7 @@ Run `gpuavail gpu-common` on the login node to see which GPU types are free righ
 | State `OUT_OF_MEMORY`                | The job exceeded its memory. Check `MaxRSS` with `sacct` and raise `--mem`                                 |
 | State `TIMEOUT`                      | The job ran past `--time`. Raise it, or split the work into an array                                       |
 | `command not found`                  | The software is not loaded. Add the `module load` line to the job script                                   |
-| `cannot open file`                   | A path still points to your laptop, or the file is not on the DCC yet                                      |
+| `cannot open file`                   | A path still points to your laptop, the file is not on the DCC yet, or you submitted from another folder   |
 | Nothing in the output file           | Look at the end of the log in `logs/` for the error; R and Python print it there                           |
 
 > ##### Test small first
