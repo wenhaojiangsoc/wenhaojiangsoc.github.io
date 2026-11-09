@@ -303,6 +303,113 @@ Run `gpuavail gpu-common` on the login node to see which GPU types are free righ
 > Before submitting 100 tasks or a two-day job, run one small version: a 1% sample, one array task, or a few minutes in an interactive session. Most errors show up in the first minute.
 {: .block-tip }
 
+## Work with an AI agent
+
+Coding agents such as [Claude Code](https://www.claude.com/product/claude-code) run on your laptop and can run commands on the DCC for you over SSH: check your queue, read a log, draft a job script, submit it once you approve. Duke supports this with a special SSH route that sends the agent's commands to a small job on a compute node instead of the shared login node. This section follows Duke's [AI agent guide](https://dcc.duke.edu/dcc/ai-access/).
+
+<figure class="flow">
+<svg viewBox="0 0 720 130" role="img" aria-label="The agent on your laptop connects with ssh dcc-agent; the login node only passes the connection through to a small Slurm job on a compute node, where commands run.">
+<rect x="1" y="25" width="190" height="76" rx="8"/>
+<text x="96" y="58" class="t">Your laptop</text>
+<text x="96" y="80" class="s">Claude Code</text>
+<rect x="265" y="25" width="190" height="76" rx="8"/>
+<text x="360" y="58" class="t">Login node</text>
+<text x="360" y="80" class="s">passes through only</text>
+<rect x="529" y="25" width="190" height="76" rx="8"/>
+<text x="624" y="58" class="t">Compute node</text>
+<text x="624" y="80" class="s">job agent-&lt;netid&gt;</text>
+<line x1="195" y1="52" x2="259" y2="52" class="a" marker-end="url(#flow-arrow)"/>
+<text x="228" y="42" class="l">ssh</text>
+<line x1="459" y1="52" x2="523" y2="52" class="a" marker-end="url(#flow-arrow)"/>
+<text x="492" y="42" class="l">proxy</text>
+<text x="360" y="125" class="s">Your commands run on the compute node, never on the shared login node.</text>
+</svg>
+</figure>
+
+> ##### Read the rules first
+>
+> You are responsible for everything an agent does under your NetID. Duke's [AI use policy](https://dcc.duke.edu/about/ai-policy/) asks you to keep a human in the loop:
+>
+> - Keep approval prompts on. Do not use `--dangerously-skip-permissions` or any "approve everything" mode.
+> - Never give an agent your password, Duo codes, or SSH private key.
+> - Do not let an agent read restricted data, such as health records, student records, or anything under a data use agreement, unless that agreement allows it.
+{: .block-danger }
+
+### Step 1: Set up an SSH key
+
+An SSH key lets your laptop log in without typing your password each time. On your laptop, create one and protect it with a passphrase:
+
+```bash
+ssh-keygen -t ed25519 -C "<netid>@duke.edu"
+cat ~/.ssh/id_ed25519.pub
+```
+
+Copy the line that `cat` prints, which is your public key. Paste it at Duke's [account self-service](https://idms-web-selfservice.oit.duke.edu/advanced) under **Manage Your Public SSH Keys**. Then check that `ssh <netid>@dcc-login.oit.duke.edu` asks for your key's passphrase instead of your Duke password.
+
+### Step 2: Add a `dcc-agent` connection
+
+Create a folder for shared connections:
+
+```bash
+mkdir -p ~/.ssh/sockets && chmod 700 ~/.ssh/sockets
+```
+
+Then add this block to `~/.ssh/config` on your laptop, with your NetID in place of `<netid>`:
+
+```
+Host dcc-agent
+    User <netid>
+    ProxyCommand ssh -o StrictHostKeyChecking=accept-new %r@dcc-login.oit.duke.edu bash /usr/local/bin/dcc-ssh-proxy.sh --name agent
+    StrictHostKeyChecking accept-new
+    ServerAliveInterval 30
+    ControlMaster auto
+    ControlPersist 30m
+    ControlPath ~/.ssh/sockets/%r@%h-%p
+```
+
+| Line             | Meaning                                                                                                       |
+| :--------------- | :------------------------------------------------------------------------------------------------------------ |
+| `ProxyCommand`   | Duke's script starts a small job (2 CPUs, 4 GB, up to 8 hours) and forwards the connection to it              |
+| `--name agent`   | The job's name. All sessions that use `dcc-agent` share this one job                                         |
+| `ControlMaster`, `ControlPersist` | Reuse one login for 30 minutes, so you are not asked to authenticate for every command       |
+
+Test it. The answer should be a compute node's name, not `dcc-login`:
+
+```bash
+ssh dcc-agent hostname
+```
+
+The first connection can take a minute while the job starts. For GPU work, add a second block named `dcc-agent-gpu` with `--name agent-gpu --partition gpu-common --gres gpu:1` at the end of its `ProxyCommand` line. On Windows, set this up inside [WSL](https://learn.microsoft.com/en-us/windows/wsl/install), since Windows' own SSH does not support shared connections.
+
+### Step 3: Tell the agent the rules
+
+Agents read a plain-text instruction file before they start. For Claude Code, create `CLAUDE.md` in your project folder on your laptop:
+
+```markdown
+# Duke Compute Cluster
+
+- Run every DCC command as `ssh dcc-agent '<command>'`
+  (`ssh dcc-agent-gpu` for GPU work). Never connect to the login node directly.
+- My code and data are in /hpc/dctrl/<netid>. Scratch files go in /work/<netid>.
+- Heavy or long work goes in a job script submitted with sbatch, not in this session.
+- Show me any job script before submitting it.
+- Ask before deleting files, cancelling jobs with scancel, or submitting more than 10 jobs.
+```
+
+### Step 4: Work with it
+
+Open Claude Code in your project folder and ask in plain language:
+
+- "Check my jobs on the DCC and tell me why the pending ones are waiting."
+- "Write a job array script that runs `boot.R` 100 times, at most 20 at once. Show it to me before submitting."
+- "Read the logs in `logs/` and tell me which tasks failed and why."
+
+Each time the agent wants to run a command, it shows you the exact `ssh dcc-agent ...` line and waits for approval. Read it before you say yes. This is also a good way to learn: the agent's commands are the same ones in this guide.
+
+The agent's job appears in `squeue --me` as `agent-<netid>`. It ends on its own about 15 minutes after you stop using it, and a new one starts when you reconnect.
+
+Duke also allows a second setup: start an [interactive session](#gpus-and-interactive-work) and launch the agent there. Only do this after the prompt shows a compute node's name, never on the login node.
+
 ## Get help
 
 - Duke's [DCC user guide](https://dcc.duke.edu) covers everything here in more depth, including SSH keys, VS Code, and containers.
