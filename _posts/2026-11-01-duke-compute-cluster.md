@@ -234,18 +234,22 @@ Without a request, a job gets 2 GB per CPU, and this is a hard limit: a job that
 
 ### CPUs and parallel R
 
-One CPU is enough for most R and Stata scripts. Ask for more only if your code uses them. With `--cpus-per-task=4`, R can run four tasks at a time:
+`--cpus-per-task` sets how many CPUs your job gets, all on one machine. R uses only one of them unless your code splits the work, so one CPU is enough for most R and Stata scripts.
+
+To use more, split work into independent pieces. With `--cpus-per-task=4`, this code runs 100 bootstrap draws, four at a time. Each CPU takes one draw and, when it finishes, picks up the next one, so each CPU does about 25 draws and all 100 finish in roughly a quarter of the time:
 
 ```r
 library(parallel)
-cores <- as.integer(Sys.getenv("SLURM_CPUS_PER_TASK"))
-results <- mclapply(1:100, function(b) {
+cores <- as.integer(Sys.getenv("SLURM_CPUS_PER_TASK"))   # 4, from --cpus-per-task
+
+# w is the data built in demo.R
+draws <- mclapply(1:100, function(b) {
   boot <- w[sample(nrow(w), replace = TRUE), ]
   coef(lm(log(wagp) ~ college + female + agep + I(agep^2), data = boot, weights = pwgtp))
 }, mc.cores = cores)
 ```
 
-Read the core count from `SLURM_CPUS_PER_TASK` rather than typing a number, so the code always matches what Slurm gave you. The `R-openblas` module also speeds up matrix operations such as `lm` on large data when you request several CPUs. See Duke's [parallel R guide](https://dcc.duke.edu/examples/parallel-r/).
+Read the core count from `SLURM_CPUS_PER_TASK` rather than typing a number, so the code always matches what Slurm gave you. See Duke's [parallel R guide](https://dcc.duke.edu/examples/parallel-r/).
 
 ### Check what you actually used
 
@@ -261,7 +265,7 @@ seff <jobid>
 
 ### Job arrays
 
-Many social science tasks are the same code run many times: bootstrap draws, simulations, one model per state or year. A **job array** submits all of them from one script. Each copy receives its own number in `SLURM_ARRAY_TASK_ID`. This is `boot.sh`:
+Parallel R runs inside **one job on one machine**, so it can use only the CPUs that one job requested. A **job array** instead submits **many separate jobs** from one script. Each copy, called a task, gets its own CPUs and memory, and Slurm spreads the tasks across many machines. This is `boot.sh`:
 
 ```bash
 #!/usr/bin/env bash
@@ -277,7 +281,12 @@ module load R-openblas/4.6.1
 Rscript boot.R
 ```
 
-`--array=1-100%20` runs tasks 1 to 100, at most 20 at a time. In the output name, `%A` is the array's job ID and `%a` the task number. In `boot.R`, use the task number to make each draw distinct and to name its output:
+- `--array=1-100` creates 100 tasks, numbered 1 to 100. Each task is a one-CPU job that runs `boot.R` once and computes one bootstrap draw.
+- `%20` is a cap: at most 20 tasks run at the same time, so you use at most 20 CPUs at once. The other tasks wait in the queue and start as running ones finish. The cap keeps you from filling the shared cluster.
+- `--cpus-per-task`, `--mem` and `--time` apply to **each task**, not to the whole array.
+- In the log name, `%A` is the array's job ID and `%a` the task number.
+
+Each task reads its number from `SLURM_ARRAY_TASK_ID` and uses it to make its draw distinct and to name its output. In `boot.R`:
 
 ```r
 task <- as.integer(Sys.getenv("SLURM_ARRAY_TASK_ID"))
@@ -290,18 +299,24 @@ fit  <- lm(log(wagp) ~ college + female + agep + I(agep^2), data = boot, weights
 saveRDS(coef(fit), sprintf("results/boot_%03d.rds", task))
 ```
 
-When all tasks finish, `combine.R` reads the 100 files in `results/` and reports bootstrap standard errors. If task 37 fails, rerun just that one with `sbatch --array=37 boot.sh`. The same pattern works for one task per input file: put the file names in a list and let each task pick the line matching its number.
-
-### Chaining jobs
-
-To start a job only after another succeeds, such as combining results after the array finishes, use a dependency:
+When `squeue --me` no longer lists any `boot` tasks, combine the 100 files in `results/` into bootstrap standard errors:
 
 ```bash
-jid=$(sbatch --parsable boot.sh)
-sbatch --dependency=afterok:$jid combine.sh
+sbatch combine.sh
+cat logs/combine_*.out
 ```
 
-`afterok` waits until every task in the array has succeeded. Then `cat logs/combine_*.out` shows the estimates and their standard errors.
+If task 37 failed, rerun only that one with `sbatch --array=37 boot.sh`.
+
+| | Parallel R | Job array |
+| :-- | :-- | :-- |
+| What you submit | One job with several CPUs | Many one-CPU jobs |
+| Where it runs | One machine | Many machines |
+| CPUs used at once | `--cpus-per-task`, here 4 | Up to the `%` cap, here 20 |
+| If something fails | Rerun the whole job | Rerun only the failed task |
+| Good for | Splitting one script's loop | Many runs: bootstraps, simulations, one model per state or year |
+
+One draw per task keeps the example simple. In practice, give each task a larger piece of work, such as 10 draws or one state, since starting R and reading the data takes a few seconds each time.
 
 ## GPUs and interactive work
 
