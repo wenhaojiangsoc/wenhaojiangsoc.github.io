@@ -239,24 +239,9 @@ Set a walltime with `--time`, as `HH:MM:SS` or `D-HH:MM:SS`. A job that runs pas
 
 Without a request, a job gets 2 GB per CPU, and this is a hard limit: a job that needs more is stopped with `OUT_OF_MEMORY`. Ask for the peak your job needs with `--mem=16G` (total) or `--mem-per-cpu=4G`. A data frame usually takes several times its file size once loaded in R.
 
-### CPUs and parallel R
+### CPUs
 
-`--cpus-per-task` sets how many CPUs your job gets, all on one machine. R uses only one of them unless your code splits the work, so one CPU is enough for most R and Stata scripts.
-
-To use more, split work into independent pieces. With `--cpus-per-task=4`, this code runs 100 bootstrap draws, four at a time. Each CPU takes one draw and, when it finishes, picks up the next one, so each CPU does about 25 draws and all 100 finish in roughly a quarter of the time:
-
-```r
-library(parallel)
-cores <- as.integer(Sys.getenv("SLURM_CPUS_PER_TASK"))   # 4, from --cpus-per-task
-
-# w is the data built in demo.R
-draws <- mclapply(1:100, function(b) {
-  boot <- w[sample(nrow(w), replace = TRUE), ]
-  coef(lm(log(wagp) ~ college + female + agep + I(agep^2), data = boot, weights = pwgtp))
-}, mc.cores = cores)
-```
-
-Read the core count from `SLURM_CPUS_PER_TASK` rather than typing a number, so the code always matches what Slurm gave you. See Duke's [parallel R guide](https://dcc.duke.edu/examples/parallel-r/).
+`--cpus-per-task` sets how many CPUs your job gets. R and Stata scripts use one CPU unless the code is written to use more, so `--cpus-per-task=1` is right for most jobs. To run many things at the same time, use many jobs instead, as in the next section.
 
 ### Check what you actually used
 
@@ -268,11 +253,42 @@ seff <jobid>
 
 `seff` reports CPU efficiency and peak memory. If your job used 2 GB of a 32 GB request, ask for 4 GB next time; it will start sooner.
 
-## Run many jobs at once
+## Run 100 bootstraps in parallel
 
-### Job arrays
+Suppose you want 100 bootstrap draws of the wage model in `demo.R`. On a laptop, a loop runs them one after another. But each draw is independent of the others, so on the DCC you can run them **at the same time, as 100 separate jobs**, each doing one draw. Slurm's tool for this is a **job array**: one script that you submit once and Slurm runs 100 times.
 
-Parallel R runs inside **one job on one machine**, so it can use only the CPUs that one job requested. A **job array** instead submits **many separate jobs** from one script. Each copy, called a task, gets its own CPUs and memory, and Slurm spreads the tasks across many machines. This is `boot.sh`:
+It takes three files from the course folder:
+
+| File | What it does |
+| :-- | :-- |
+| `boot.R` | Computes **one** bootstrap draw and saves it to its own file |
+| `boot.sh` | Asks Slurm to run `boot.R` 100 times, as tasks 1 to 100 |
+| `combine.R` | After all 100 finish, reads the 100 saved draws and computes standard errors |
+
+### Step 1: Write the code for one draw
+
+`boot.R` is `demo.R` with two changes: it fits the model on a resampled data set, and it saves the coefficients instead of printing them.
+
+```r
+task <- as.integer(Sys.getenv("SLURM_ARRAY_TASK_ID"))   # 1, 2, ..., 100
+set.seed(task)
+
+acs <- read.csv("data/acs_nc_2024.csv")
+w <- subset(acs, agep >= 25 & agep <= 64 & wagp > 0 & wkhp >= 35)
+w$college <- as.integer(w$schl >= 21)
+w$female  <- as.integer(w$sex == 2)
+
+boot <- w[sample(nrow(w), replace = TRUE), ]   # resample rows with replacement
+fit  <- lm(log(wagp) ~ college + female + agep + I(agep^2), data = boot, weights = pwgtp)
+
+saveRDS(coef(fit), sprintf("results/boot_%03d.rds", task))
+```
+
+There is no loop. Each of the 100 copies runs this script once and gets a different **task number** from Slurm in `SLURM_ARRAY_TASK_ID`. The script uses it twice: as the random seed, so every copy draws a different sample, and in the file name, so task 7 saves `results/boot_007.rds` without overwriting the others.
+
+### Step 2: Ask for 100 copies
+
+`boot.sh` is an ordinary job script plus one line, `--array`:
 
 ```bash
 #!/usr/bin/env bash
@@ -288,42 +304,48 @@ module load R-openblas/4.6.1
 Rscript boot.R
 ```
 
-- `--array=1-100` creates 100 tasks, numbered 1 to 100. Each task is a one-CPU job that runs `boot.R` once and computes one bootstrap draw.
-- `%20` is a cap: at most 20 tasks run at the same time, so you use at most 20 CPUs at once. The other tasks wait in the queue and start as running ones finish. The cap keeps you from filling the shared cluster.
-- `--cpus-per-task`, `--mem` and `--time` apply to **each task**, not to the whole array.
-- In the log name, `%A` is the array's job ID and `%a` the task number.
+- `--array=1-100` runs the script 100 times, with task numbers 1 to 100.
+- `%20` means at most 20 copies run at the same time. The rest wait in the queue and start as running ones finish, which keeps you from taking over the shared cluster.
+- `--cpus-per-task`, `--mem` and `--time` are **per copy**: each copy gets 1 CPU and 8 GB for up to 30 minutes.
+- Each copy writes its own log, such as `logs/boot_186560_7.out`: `%A` is the array's job ID and `%a` the task number.
 
-Each task reads its number from `SLURM_ARRAY_TASK_ID` and uses it to make its draw distinct and to name its output. In `boot.R`:
+### Step 3: Submit and watch
 
-```r
-task <- as.integer(Sys.getenv("SLURM_ARRAY_TASK_ID"))
-set.seed(task)
-
-# ... read the data and build w as in demo.R ...
-
-boot <- w[sample(nrow(w), replace = TRUE), ]
-fit  <- lm(log(wagp) ~ college + female + agep + I(agep^2), data = boot, weights = pwgtp)
-saveRDS(coef(fit), sprintf("results/boot_%03d.rds", task))
+```bash
+sbatch boot.sh
+squeue --me
 ```
 
-When `squeue --me` no longer lists any `boot` tasks, combine the 100 files in `results/` into bootstrap standard errors:
+`squeue` shows up to 20 running copies, such as `186560_1` to `186560_20`, and the waiting ones as a single line, `186560_[21-100]`. With this small file each copy takes only seconds, so the array may finish before you look. To count finished draws:
+
+```bash
+ls results | wc -l
+```
+
+If one copy fails, say task 37, read `logs/boot_*_37.out` and rerun only that task with `sbatch --array=37 boot.sh`.
+
+### Step 4: Combine the draws
+
+At this point you have 100 files in `results/`, one coefficient vector each. `combine.R` stacks them and takes the standard deviation of each coefficient across the 100 draws, which is its bootstrap standard error:
+
+```r
+files <- list.files("results", pattern = "^boot_.*\\.rds$", full.names = TRUE)
+draws <- do.call(rbind, lapply(files, readRDS))   # 100 rows, one per draw
+
+cat("Bootstrap draws:", nrow(draws), "\n")
+print(round(cbind(mean = colMeans(draws), se = apply(draws, 2, sd)), 4))
+```
+
+Once `squeue --me` no longer lists any `boot` copies, submit it and read the result:
 
 ```bash
 sbatch combine.sh
 cat logs/combine_*.out
 ```
 
-If task 37 failed, rerun only that one with `sbatch --array=37 boot.sh`.
+The output should start with `Bootstrap draws: 100`, and the coefficient on `college` should again be about 0.63, now with a standard error of about 0.01.
 
-| | Parallel R | Job array |
-| :-- | :-- | :-- |
-| What you submit | One job with several CPUs | Many one-CPU jobs |
-| Where it runs | One machine | Many machines |
-| CPUs used at once | `--cpus-per-task`, here 4 | Up to the `%` cap, here 20 |
-| If something fails | Rerun the whole job | Rerun only the failed task |
-| Good for | Splitting one script's loop | Many runs: bootstraps, simulations, one model per state or year |
-
-One draw per task keeps the example simple. In practice, give each task a larger piece of work, such as 10 draws or one state, since starting R and reading the data takes a few seconds each time.
+The same pattern works for any repeated task: simulations, one model per state or year, or one file per task. Change what the script does with its task number.
 
 ## GPUs
 
