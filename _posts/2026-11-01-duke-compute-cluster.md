@@ -90,7 +90,14 @@ The second step is easy to miss: without it the project does not give you cluste
 3. Set the other panel to your own computer.
 4. Select files and click **Start**.
 
-To practice, download the course folder, [proseminar.zip](/assets/proseminar.zip) (2 MB), to your laptop and unzip it. Then transfer the `proseminar` folder this way to `/hpc/dctrl/<netid>/`. The examples below use it.
+To practice, use the course files on GitHub at [wenhaojiangsoc/dcc-proseminar](https://github.com/wenhaojiangsoc/dcc-proseminar): the data and all code used below. Download [dcc-proseminar.zip](https://github.com/wenhaojiangsoc/dcc-proseminar/releases/latest/download/dcc-proseminar.zip) (13 MB) to your laptop, unzip it, and transfer the `dcc-proseminar` folder this way to `/hpc/dctrl/<netid>/`.
+
+You can also skip your laptop and copy it straight from GitHub once you are logged in to the DCC (next section):
+
+```bash
+cd /hpc/dctrl/$USER
+git clone https://github.com/wenhaojiangsoc/dcc-proseminar.git
+```
 
 ### Where things live
 
@@ -117,11 +124,10 @@ Type your Duke password (nothing appears as you type) and approve the Duo prompt
 
 ### Get the course files
 
-Go to the folder you transferred with Globus:
+Go to the course folder:
 
 ```bash
-cd /hpc/dctrl/$USER/proseminar
-mkdir -p logs results
+cd /hpc/dctrl/$USER/dcc-proseminar
 ls
 ```
 
@@ -153,11 +159,11 @@ fit <- lm(log(wagp) ~ college + female + agep + I(agep^2), data = w, weights = p
 print(summary(fit))
 ```
 
-The path `data/acs_nc_2024.csv` is relative: a job starts in the folder you submit it from, here `/hpc/dctrl/<netid>/proseminar`.
+The path `data/acs_nc_2024.csv` is relative: a job starts in the folder you submit it from, here `/hpc/dctrl/<netid>/dcc-proseminar`.
 
 ### Try it interactively
 
-To explore the data in R line by line, as on your laptop, ask Slurm for an interactive session on a compute node. From the `proseminar` folder:
+To explore the data in R line by line, as on your laptop, ask Slurm for an interactive session on a compute node. From the `dcc-proseminar` folder:
 
 ```bash
 srun --partition=common --cpus-per-task=1 --mem=4G --time=01:00:00 --pty bash
@@ -203,7 +209,7 @@ To get an email when a job ends or fails, add `#SBATCH --mail-type=END,FAIL` and
 
 ### Submit
 
-From the `proseminar` folder:
+From the `dcc-proseminar` folder:
 
 ```bash
 sbatch demo.sh
@@ -357,11 +363,10 @@ conda activate torch
 pip install torch torchvision
 ```
 
-**Get the images and submit.** Download MNIST once, then submit `mnist.sh`:
+**Submit.** The images are already in the course folder, in `data/MNIST/raw`:
 
 ```bash
-cd /hpc/dctrl/$USER/proseminar
-python -c "from torchvision import datasets; datasets.MNIST('data', download=True)"
+cd /hpc/dctrl/$USER/dcc-proseminar
 sbatch mnist.sh
 ```
 
@@ -484,13 +489,13 @@ Log in with your Duke password and Duo (you may be asked twice). The first time 
 
 ### Step 3: Tell the agent the rules
 
-For Claude Code, create a file named `CLAUDE.md` in your project folder on your laptop, such as the unzipped `proseminar` folder:
+For Claude Code, create a file named `CLAUDE.md` in your project folder on your laptop, such as the unzipped `dcc-proseminar` folder:
 
 ```markdown
 # Duke Compute Cluster
 
 - Run every DCC command as `ssh dcc-agent '<command>'`.
-- My files are in /hpc/dctrl/<netid>/proseminar.
+- My files are in /hpc/dctrl/<netid>/dcc-proseminar.
 - Heavy work goes in a job script submitted with sbatch. Show me the script first.
 - Ask before deleting files or cancelling jobs.
 ```
