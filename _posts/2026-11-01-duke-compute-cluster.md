@@ -219,7 +219,7 @@ The coefficient on `college` should be about 0.64: full-time workers with a bach
 
 > ##### Do not compute on the login node
 >
-> The login node is shared by everyone. Use it to move around, edit files, and submit jobs. Heavy processes started there are stopped automatically; use an [interactive session](#gpus-and-interactive-work) instead.
+> The login node is shared by everyone. Use it to move around, edit files, and submit jobs. Heavy processes started there are stopped automatically; use an [interactive session](#try-it-interactively) instead.
 {: .block-danger }
 
 ## Request the right resources
@@ -318,19 +318,7 @@ If task 37 failed, rerun only that one with `sbatch --array=37 boot.sh`.
 
 One draw per task keeps the example simple. In practice, give each task a larger piece of work, such as 10 draws or one state, since starting R and reading the data takes a few seconds each time.
 
-## GPUs and interactive work
-
-### Interactive sessions
-
-To try things line by line on a compute node, request an interactive session instead of a batch job:
-
-```bash
-srun --partition=common --cpus-per-task=1 --mem=4G --time=01:00:00 --pty bash
-```
-
-When the prompt changes, you are on a compute node: load modules and start R or Python as usual. Type `exit` when done to release the resources.
-
-### GPUs
+## GPUs
 
 Deep learning, image models, and local language models need a GPU. Request one in a job script with:
 
@@ -339,7 +327,7 @@ Deep learning, image models, and local language models need a GPU. Request one i
 #SBATCH --gres=gpu:1
 ```
 
-or interactively:
+or in an [interactive session](#try-it-interactively):
 
 ```bash
 srun --partition=gpu-common --gres=gpu:1 --mem=16G --time=01:00:00 --pty bash
@@ -496,7 +484,7 @@ Log in with your Duke password and Duo (you may be asked twice). The first time 
 
 ### Step 3: Tell the agent the rules
 
-For Claude Code, create a file named `CLAUDE.md` in your project folder on your laptop:
+For Claude Code, create a file named `CLAUDE.md` in your project folder on your laptop, such as the unzipped `proseminar` folder:
 
 ```markdown
 # Duke Compute Cluster
