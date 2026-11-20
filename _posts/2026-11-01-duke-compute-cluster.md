@@ -83,14 +83,13 @@ The second step is easy to miss: without it the project does not give you cluste
 
 ## Move your files
 
-[Globus](https://app.globus.org) is the easiest way to move files between your computer and the DCC.
+[Globus](https://app.globus.org) is the easiest way to move files between your computer and the DCC. We practice with the course files, the data and all code used below, from [wenhaojiangsoc/dcc-proseminar](https://github.com/wenhaojiangsoc/dcc-proseminar) on GitHub.
 
-1. Install **Globus Connect Personal** and log in at [app.globus.org](https://app.globus.org) with your Duke account.
-2. In the File Manager, search the **Collection** box for **Duke Compute Cluster (DCC) Data Transfer Node**. Then type `/hpc/dctrl/<netid>/` in the **Path** box.
-3. Set the other panel to your own computer.
-4. Select files and click **Start**.
-
-To practice, use the course files on GitHub at [wenhaojiangsoc/dcc-proseminar](https://github.com/wenhaojiangsoc/dcc-proseminar): the data and all code used below. Download [dcc-proseminar.zip](https://github.com/wenhaojiangsoc/dcc-proseminar/releases/latest/download/dcc-proseminar.zip) (13 MB) to your laptop, unzip it, and transfer the `dcc-proseminar` folder this way to `/hpc/dctrl/<netid>/`.
+1. Download [dcc-proseminar.zip](https://github.com/wenhaojiangsoc/dcc-proseminar/releases/latest/download/dcc-proseminar.zip) (13 MB) and unzip it. You now have a folder named `dcc-proseminar` on your laptop.
+2. Install **Globus Connect Personal** and log in at [app.globus.org](https://app.globus.org) with your Duke account.
+3. In the File Manager, search the left **Collection** box for **Duke Compute Cluster (DCC) Data Transfer Node**. Then type `/hpc/dctrl/<netid>/` in its **Path** box. This is where the folder will go.
+4. In the right panel, choose your own computer and go to the folder that contains `dcc-proseminar`, such as Downloads.
+5. Select the `dcc-proseminar` folder and click **Start**. When the transfer finishes, your files are at `/hpc/dctrl/<netid>/dcc-proseminar` on the DCC.
 
 You can also skip your laptop and copy it straight from GitHub once you are logged in to the DCC (next section):
 
@@ -98,6 +97,8 @@ You can also skip your laptop and copy it straight from GitHub once you are logg
 cd /hpc/dctrl/$USER
 git clone https://github.com/wenhaojiangsoc/dcc-proseminar.git
 ```
+
+Your own data and code later move the same way.
 
 ### Where things live
 
