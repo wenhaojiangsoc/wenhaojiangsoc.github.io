@@ -86,7 +86,7 @@ The second step is easy to miss: without it the project does not give you cluste
 [Globus](https://app.globus.org) is the easiest way to move files between your computer and the DCC.
 
 1. Install **Globus Connect Personal** and log in at [app.globus.org](https://app.globus.org) with your Duke account.
-2. In the File Manager, set one panel to **Duke Compute Cluster (DCC) Data Transfer Node** at `/hpc/dctrl/<netid>/`.
+2. In the File Manager, search the **Collection** box for **Duke Compute Cluster (DCC) Data Transfer Node**. Then type `/hpc/dctrl/<netid>/` in the **Path** box.
 3. Set the other panel to your own computer.
 4. Select files and click **Start**.
 
