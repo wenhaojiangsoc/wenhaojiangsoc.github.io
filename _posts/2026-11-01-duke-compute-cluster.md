@@ -90,7 +90,7 @@ The second step is easy to miss: without it the project does not give you cluste
 3. Set the other panel to your own computer.
 4. Select files and click **Start**.
 
-Files that are already online, such as public data, can skip your laptop entirely: download them on the DCC with `curl`, as in the next section.
+To practice, download the course folder, [proseminar.zip](/assets/proseminar.zip) (2 MB), to your laptop and unzip it. Then transfer the `proseminar` folder this way to `/hpc/dctrl/<netid>/`. The examples below use it.
 
 ### Where things live
 
@@ -117,18 +117,15 @@ Type your Duke password (nothing appears as you type) and approve the Duo prompt
 
 ### Get the course files
 
-The examples use the Census Bureau's 2024 [American Community Survey](https://www.census.gov/programs-surveys/acs/microdata.html) person file for North Carolina: all 114,270 respondents, trimmed to 17 variables. Download it and the scripts straight into your allocation:
+Go to the folder you transferred with Globus:
 
 ```bash
-mkdir -p /hpc/dctrl/$USER/proseminar && cd /hpc/dctrl/$USER/proseminar
-mkdir -p data logs results
-base=https://wenhaojiangsoc.github.io/assets/proseminar
-curl -sL -o data/acs_nc_2024.csv $base/acs_nc_2024.csv
-for f in demo.R demo.sh boot.R boot.sh combine.R combine.sh mnist.py mnist.sh; do curl -sLO $base/$f; done
+cd /hpc/dctrl/$USER/proseminar
+mkdir -p logs results
 ls
 ```
 
-On the DCC, `$USER` is your NetID. The variables used below are:
+On the DCC, `$USER` is your NetID. The folder holds the scripts used below and, in `data/`, the Census Bureau's 2024 [American Community Survey](https://www.census.gov/programs-surveys/acs/microdata.html) person file for North Carolina: all 114,270 respondents, trimmed to 17 variables. The variables used below are:
 
 | Variable | Meaning                                                                                         |
 | :------- | :---------------------------------------------------------------------------------------------- |
@@ -157,6 +154,26 @@ print(summary(fit))
 ```
 
 The path `data/acs_nc_2024.csv` is relative: a job starts in the folder you submit it from, here `/hpc/dctrl/<netid>/proseminar`.
+
+### Try it interactively
+
+To explore the data in R line by line, as on your laptop, ask Slurm for an interactive session on a compute node. From the `proseminar` folder:
+
+```bash
+srun --partition=common --cpus-per-task=1 --mem=4G --time=01:00:00 --pty bash
+module load R-openblas/4.6.1
+R
+```
+
+The first line waits until a compute node is free, usually a few seconds, and the prompt then shows that node's name. In R, run the lines of `demo.R` one at a time, or all at once:
+
+```r
+source("demo.R")
+head(w)
+summary(w$wagp)
+```
+
+Type `q()` to leave R and `exit` to end the session, which frees the node for others. Interactive sessions end when you log out or when the time runs out, so use them to explore and debug. For anything long, write a job script.
 
 ### Write a job script
 
@@ -429,26 +446,15 @@ Coding agents such as [Claude Code](https://www.claude.com/product/claude-code) 
 > - Do not let an agent read restricted data, such as health records, student records, or anything under a data use agreement, unless that agreement allows it.
 {: .block-danger }
 
-### Step 1: Set up an SSH key
+### Step 1: Add a dcc-agent connection
 
-An SSH key lets your laptop log in without typing your password each time. On your laptop, create one and protect it with a passphrase:
-
-```bash
-ssh-keygen -t ed25519 -C "<netid>@duke.edu"
-cat ~/.ssh/id_ed25519.pub
-```
-
-Copy the line that `cat` prints, which is your public key. Paste it at Duke's [account self-service](https://idms-web-selfservice.oit.duke.edu/advanced) under **Manage Your Public SSH Keys**. Then check that `ssh <netid>@dcc-login.oit.duke.edu` asks for your key's passphrase instead of your Duke password.
-
-### Step 2: Add a dcc-agent connection
-
-Create a folder for shared connections:
+On your laptop, open Terminal and create a folder for the connection:
 
 ```bash
-mkdir -p ~/.ssh/sockets && chmod 700 ~/.ssh/sockets
+mkdir -p ~/.ssh/sockets
 ```
 
-Then add this block to `~/.ssh/config` on your laptop, with your NetID in place of `<netid>`:
+Then open the file `~/.ssh/config` in any text editor (create it if it does not exist) and paste this block, with your NetID in place of `<netid>`:
 
 ```
 Host dcc-agent
@@ -461,48 +467,39 @@ Host dcc-agent
     ControlPath ~/.ssh/sockets/%r@%h-%p
 ```
 
-| Line             | Meaning                                                                                                       |
-| :--------------- | :------------------------------------------------------------------------------------------------------------ |
-| `ProxyCommand`   | Duke's script starts a small job (2 CPUs, 4 GB, up to 8 hours) and forwards the connection to it              |
-| `--name agent`   | The job's name. All sessions that use `dcc-agent` share this one job                                         |
-| `ControlMaster`, `ControlPersist` | Reuse one login for 30 minutes, so you are not asked to authenticate for every command       |
+It sends your connection through the login node to a small job (2 CPUs, 4 GB) on a compute node, and keeps it open so the agent can reuse it. On Windows, do this inside [WSL](https://learn.microsoft.com/en-us/windows/wsl/install).
 
-Test it. The answer should be a compute node's name, not `dcc-login`:
+### Step 2: Log in yourself
+
+The agent cannot type your password or approve Duo, so you open the connection first. In Terminal:
 
 ```bash
 ssh dcc-agent hostname
 ```
 
-The first connection can take a minute while the job starts. For GPU work, add a second block named `dcc-agent-gpu` with `--name agent-gpu --partition gpu-common --gres gpu:1` at the end of its `ProxyCommand` line. On Windows, set this up inside [WSL](https://learn.microsoft.com/en-us/windows/wsl/install), since Windows' own SSH does not support shared connections.
+Log in with your Duke password and Duo (you may be asked twice). The first time can take a minute while the job starts. It should print a compute node's name, not `dcc-login`. The connection then stays open until 30 minutes after its last use; when it closes, run this command again.
 
 ### Step 3: Tell the agent the rules
 
-Agents read a plain-text instruction file before they start. For Claude Code, create `CLAUDE.md` in your project folder on your laptop:
+For Claude Code, create a file named `CLAUDE.md` in your project folder on your laptop:
 
 ```markdown
 # Duke Compute Cluster
 
-- Run every DCC command as `ssh dcc-agent '<command>'`
-  (`ssh dcc-agent-gpu` for GPU work). Never connect to the login node directly.
-- My code and data are in /hpc/dctrl/<netid>. Scratch files go in /work/<netid>.
-- Heavy or long work goes in a job script submitted with sbatch, not in this session.
-- Show me any job script before submitting it.
-- Ask before deleting files, cancelling jobs with scancel, or submitting more than 10 jobs.
+- Run every DCC command as `ssh dcc-agent '<command>'`.
+- My files are in /hpc/dctrl/<netid>/proseminar.
+- Heavy work goes in a job script submitted with sbatch. Show me the script first.
+- Ask before deleting files or cancelling jobs.
 ```
 
-### Step 4: Work with it
+### Step 4: Ask
 
-Open Claude Code in your project folder and ask in plain language:
+Open Claude Code in that folder and ask in plain language:
 
 - "Check my jobs on the DCC and tell me why the pending ones are waiting."
-- "Write a job array script that runs `boot.R` 100 times, at most 20 at once. Show it to me before submitting."
 - "Read the logs in `logs/` and tell me which tasks failed and why."
 
-Each time the agent wants to run a command, it shows you the exact `ssh dcc-agent ...` line and waits for approval. Read it before you say yes. This is also a good way to learn: the agent's commands are the same ones in this guide.
-
-The agent's job appears in `squeue --me` as `agent-<netid>`. It ends on its own about 15 minutes after you stop using it, and a new one starts when you reconnect.
-
-Duke also allows a second setup: start an [interactive session](#gpus-and-interactive-work) and launch the agent there. Only do this after the prompt shows a compute node's name, never on the login node.
+Each time it wants to run a command, it shows you the exact `ssh dcc-agent ...` line and waits. Read it before you approve.
 
 ## Get help
 
