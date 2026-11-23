@@ -115,12 +115,3 @@ nav_order: 3
   {% endfor %}
   </ol>
 </div>
-
-<script>
-  // Show abstracts by default; the Abs button still toggles them closed and open.
-  document.addEventListener("DOMContentLoaded", function () {
-    document.querySelectorAll(".publications .abstract.hidden").forEach(function (el) {
-      el.classList.add("open");
-    });
-  });
-</script>
