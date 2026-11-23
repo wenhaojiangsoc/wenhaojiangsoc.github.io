@@ -19,16 +19,6 @@ stages:
     label: Revise & resubmit
 
 projects:
-  - title: "The Color of Activity Space: Redlining and the Racial Segregation of Everyday Places"
-    authors: Wenhao Jiang and Yongjun Zhang (equal authorship)
-    stage: rr
-    now: Revised manuscript resubmitted to Demography.
-
-  - title: "The Growing Geographic Affinity Between High- and Low-Paying Occupations"
-    authors: Wenhao Jiang and Siwei Cheng (equal authorship)
-    stage: review
-    now: Under review at PNAS Nexus.
-
   - title: "Bad Health, Bad Jobs, But for Whom? Health Status, Gender, and Sorting Into Precarious Work"
     authors: Linsey Edwards and Wenhao Jiang (equal authorship)
     stage: revising
